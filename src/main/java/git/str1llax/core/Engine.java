@@ -13,7 +13,7 @@ public class Engine {
     }
 
     public void loadResources() {
-        gameContext.resourceManager().readFiles();
+        gameContext.resourceManager().initialize();
     }
 
     public void startGame() {

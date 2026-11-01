@@ -1,15 +1,19 @@
 package git.str1llax.core.skills;
 
+import git.str1llax.core.effects.SkillEffect;
 import git.str1llax.core.utils.Credentials;
+
+import java.util.List;
 
 public record PassiveSkill(
         Credentials credentials,
-        TriggerCondition triggerCondition,
-        double triggerChance,
-        String effectId
+        TriggerType triggerType,
+        Object condition,
+        List<SkillEffect> effects
 ) {
-    public enum TriggerCondition {
+    public enum TriggerType {
         ON_ATTACK,
-        ON_DEFEND
+        ON_DEFENSE,
+        CONSTANT
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public record Equipment(
         Credentials credentials,
-        EquipmentType type,
+        EquipmentType equipmentType,
         String targetId,
         double mainStat,
         double offStat,

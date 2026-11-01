@@ -1,5 +1,6 @@
 package git.str1llax.core.equipment;
 
+import git.str1llax.core.managers.ResourceManager;
 import git.str1llax.core.skills.ActiveSkill;
 import git.str1llax.core.skills.PassiveSkill;
 
@@ -14,7 +15,10 @@ public class Loadout {
     public Loadout() {}
 
     public Loadout equip(Equipment item) {
-        switch (item.type()) {
+        if (item == null) {
+            return this;
+        }
+        switch (item.equipmentType()) {
             case Equipment.EquipmentType.SWORD -> sword = item;
             case Equipment.EquipmentType.SHIELD -> shield = item;
             case Equipment.EquipmentType.ARMOR -> armor = item;
@@ -24,7 +28,17 @@ public class Loadout {
     }
 
     public List<ActiveSkill> getActiveSkills() {
-        return (armor != null && armor.activeSkills() != null) ? armor.activeSkills() : List.of();
+        List<ActiveSkill> activeSkills = new ArrayList<>();
+        if (sword != null && sword.activeSkills() != null) {
+            activeSkills.addAll(sword.activeSkills());
+        }
+        if (shield != null && shield.activeSkills() != null) {
+            activeSkills.addAll(shield.activeSkills());
+        }
+        if (armor != null && armor.activeSkills() != null) {
+            activeSkills.addAll(armor.activeSkills());
+        }
+        return activeSkills;
     }
 
     public List<PassiveSkill> getPassiveSkills() {
@@ -35,8 +49,11 @@ public class Loadout {
         if (shield != null && shield.passiveSkills() != null) {
             passiveSkills.addAll(shield.passiveSkills());
         }
+        if (armor != null && armor.passiveSkills() != null) {
+            passiveSkills.addAll(armor.passiveSkills());
+        }
         if (sword != null && shield != null && sword.setId() != null && shield.setId() != null && sword.setId().equals(shield.setId())) {
-            passiveSkills.add(); //TODO add equipment set effect
+            passiveSkills.add(ResourceManager.getPassiveSkill(sword.setId()));
         }
         return passiveSkills;
     }
