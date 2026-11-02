@@ -1,0 +1,21 @@
+[
+  {
+    "credentials": {
+      "id": "stick_pig",
+      "name": "Stick Pig",
+      "description": "Just a minion pig."
+    },
+    "baseStats": {
+      "maxHp": 50,
+      "attackDamage": 5,
+      "defense": 10,
+      "agility": 10
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": "stick",
+      "shieldId": null
+    },
+    "ultimateSkillId": "stumble"
+  }
+]

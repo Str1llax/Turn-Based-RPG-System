@@ -1,5 +1,6 @@
 package git.str1llax.core.states;
 
+import git.str1llax.core.managers.InputManager;
 import git.str1llax.core.utils.GameContext;
 
 public class MainMenuState implements GameState {
@@ -11,12 +12,18 @@ public class MainMenuState implements GameState {
 
     @Override
     public void load() {
-
+        System.out.println("Welcome to the Angry Birds: EPIC! CLI Remake");
+        System.out.println("Enter:");
+        System.out.println("1. Start game.");
+        System.out.println("2. Exit game.");
     }
 
     @Override
     public void update() {
-
+        switch (InputManager.getValidInput(1, 2)) {
+            case 1 -> System.out.println("Coming in the future!");//gameContext.stateManager().push(new GamePreparationState(gameContext));
+            case 2 -> gameContext.stateManager().pop();
+        }
     }
 
     @Override
@@ -26,6 +33,6 @@ public class MainMenuState implements GameState {
 
     @Override
     public void unload() {
-
+        System.out.println("Goodbye...");
     }
 }

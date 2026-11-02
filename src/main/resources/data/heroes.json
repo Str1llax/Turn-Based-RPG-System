@@ -1,0 +1,21 @@
+[
+  {
+    "credentials": {
+      "id": "red",
+      "name": "Red",
+      "description": "Protects the party. A real hero!"
+    },
+    "baseStats": {
+      "maxHp": 36,
+      "attackDamage": 8,
+      "defense": 10,
+      "agility": 10
+    },
+    "defaultLoadout": {
+      "armorId": "knight",
+      "swordId": "sword",
+      "shieldId": "shield"
+    },
+    "ultimateSkillId": "heroic_strike"
+  }
+]

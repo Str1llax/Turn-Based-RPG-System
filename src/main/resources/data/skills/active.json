@@ -1,0 +1,59 @@
+[
+  {
+    "credentials": {
+      "id": "attack",
+      "name": "Attack",
+      "description": "Deals 115% AD damage, forcing target to attack Red for 3 turns."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_115",
+      "focus_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "protect",
+      "name": "Protect",
+      "description": "Target bird receives 55% less damage for 2 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "protect_55"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "heroic_strike",
+      "name": "Heroic Strike",
+      "description": "Deals 500% damage to the enemy with the most health."
+    },
+    "skillType": "ULTIMATE",
+    "effectIds": [
+      "heroic_strike"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "poke",
+      "name": "Poke",
+      "description": "Deals 100% damage to the target."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_100"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "stumble",
+      "name": "Stumble",
+      "description": "Stumbles and does nothing. Stupid..."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "stumble"
+    ]
+  }
+]

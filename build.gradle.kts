@@ -1,7 +1,7 @@
 plugins {
     base
     idea
-    id("java")
+    java
 }
 
 group = "git.str1llax"
@@ -17,6 +17,15 @@ dependencies {
 
 sourceSets {
     main {
-        java.srcDir("src/main/java")
+        resources {
+            srcDir("src/main/resources")
+        }
+        java {
+            srcDir("src/main/java")
+        }
     }
+}
+
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

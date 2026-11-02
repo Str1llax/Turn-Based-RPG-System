@@ -1,0 +1,170 @@
+[
+  {
+    "credentials": {
+      "id": "cr_increase_15",
+      "name": "Accurate",
+      "description": "Increases crit. rate by 15%"
+    },
+    "effectType": "MODIFY_CRIT_RATE",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.15,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "cd_increase_50",
+      "name": "Strong",
+      "description": "Increases crit. damage by 50%"
+    },
+    "effectType": "MODIFY_CRIT_DAMAGE",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.50,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "chain_attack_30",
+      "name": "Chain Attack",
+      "description": "Attacks additional random enemy."
+    },
+    "effectType": "BONUS_DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 0.30,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "stun_1",
+      "name": "Stunned",
+      "description": "Can't move."
+    },
+    "effectType": "STUN",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 0.05,
+    "durationTurns": 1
+  },
+  {
+    "credentials": {
+      "id": "vigor_5",
+      "name": "Vigor",
+      "description": "Reduces incoming damage by 5%."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.95,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "might_5",
+      "name": "Might",
+      "description": "Increases attack power by 5%."
+    },
+    "effectType": "STRENGTH",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 1.05,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_115",
+      "name": "Attack",
+      "description": "Deals 115% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": 1.15,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "focus_3",
+      "name": "Focus",
+      "description": "Forces to attack focused entity."
+    },
+    "effectType": "FOCUS",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "protect_55",
+      "name": "Protected",
+      "description": "Receive 55% less damage for 2 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "SELECTED_ALLY",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.45,
+    "triggerChance": 1.00,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "heroic_strike",
+      "name": "Heroic Strike",
+      "description": "Deals 500% damage to the strongest enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "LEAST_INJURED_ENEMY",
+    "scaleType": "FLAT",
+    "statMultiplier": 5.00,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_100",
+      "name": "Poke",
+      "description": "Deals 100% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": 1.00,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "stun_1",
+      "name": "Stumble",
+      "description": "Does nothing"
+    },
+    "effectType": "STUN",
+    "executionType": "INSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  }
+]

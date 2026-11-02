@@ -6,9 +6,8 @@ public record SkillEffect(
         Credentials credentials,
         EffectType effectType,
         ExecutionType executionType,
-        TriggerType triggerType,
         TargetGroup targetGroup,
-        ValueType valueType,
+        ScaleType scaleType,
         Double statMultiplier,
         Double triggerChance,
         Integer durationTurns
@@ -17,6 +16,7 @@ public record SkillEffect(
         DAMAGE,
         BONUS_DAMAGE,
         HEAL,
+        HEALTH_BOOST,
         FOCUS,
         THORN,
         PROTECTION,
@@ -26,7 +26,10 @@ public record SkillEffect(
         SLOWNESS,
         STUN,
         DISPEL_BUFFS,
-        STAT_MODIFIER
+        IMMUNE,
+        REVIVE,
+        MODIFY_CRIT_RATE,
+        MODIFY_CRIT_DAMAGE,
     }
 
     public enum ExecutionType {
@@ -36,24 +39,30 @@ public record SkillEffect(
         CONSTANT
     }
 
-    public enum TriggerType {
-        ON_ATTACK,
-        ON_DEFENSE,
-        CONSTANT
-    }
-
     public enum TargetGroup {
-        PRIMARY_TARGET,
+        SELF,
+        TARGET,
+        SELECTED_ALLY,
         ALL_ENEMIES,
         ALL_ALLIES,
-        SELF,
-        RANDOM_ENEMY
+        MOST_INJURED_ALLY,
+        MOST_INJURED_ENEMY,
+        LEAST_INJURED_AlLY,
+        LEAST_INJURED_ENEMY,
+        RANDOM_ENEMY,
+        RANDOM_ALLY,
     }
 
-    public enum ValueType {
-        CASTER_ATTACK,
+    public enum ScaleType {
+        FLAT,
         DAMAGE_DEALT,
+        DAMAGE_RECEIVED,
+        HEAL_RECEIVED,
+        CASTER_MAX_HP,
+        CASTER_ATTACK,
+        CASTER_DEFENSE,
         TARGET_MAX_HP,
-        FLAT
+        TARGET_ATTACK,
+        TARGET_DEFENSE
     }
 }

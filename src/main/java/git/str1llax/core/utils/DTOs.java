@@ -1,6 +1,5 @@
 package git.str1llax.core.utils;
 
-import git.str1llax.core.effects.SkillEffect;
 import git.str1llax.core.equipment.Equipment;
 import git.str1llax.core.skills.ActiveSkill;
 import git.str1llax.core.skills.PassiveSkill;
@@ -8,35 +7,22 @@ import git.str1llax.core.skills.PassiveSkill;
 import java.util.List;
 
 public class DTOs {
-    public record EffectDTO(
-            Credentials Credentials,
-            SkillEffect.EffectType EffectType,
-            SkillEffect.ExecutionType ExecutionType,
-            SkillEffect.TriggerType TriggerType,
-            SkillEffect.TargetGroup TargetGroup,
-            SkillEffect.ValueType ValueType,
-            Double StatMultiplier,
-            Double triggerChance,
-            Integer durationTurns
-    ) {}
-
     public record ActiveSkillDTO(
-            Credentials Credentials,
-            ActiveSkill.SkillType SkillType,
-            ActiveSkill.SkillRange SkillRange,
+            Credentials credentials,
+            ActiveSkill.SkillType skillType,
             List<String> effectIds
     ) {}
 
     public record PassiveSkillDTO(
-            Credentials Credentials,
-            PassiveSkill.TriggerType TriggerType,
-            Object Condition,
+            Credentials credentials,
+            PassiveSkill.TriggerType triggerType,
+            PassiveSkill.PassiveCondition condition,
             List<String> effectIds
     ) {}
 
     public record EquipmentDTO(
-            Credentials Credentials,
-            Equipment.EquipmentType EquipmentType,
+            Credentials credentials,
+            Equipment.EquipmentType equipmentType,
             String targetId,
             double mainStat,
             double offStat,
@@ -52,8 +38,8 @@ public class DTOs {
     ) {}
 
     public record EntityDTO(
-            Credentials Credentials,
-            BaseStats BaseStats,
+            Credentials credentials,
+            BaseStats baseStats,
             DefaultLoadoutDTO defaultLoadout,
             String ultimateSkillId
     ) {}

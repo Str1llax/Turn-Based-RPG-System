@@ -8,17 +8,11 @@ import java.util.List;
 public record ActiveSkill(
         Credentials credentials,
         SkillType skillType,
-        SkillRange skillRange,
         List<SkillEffect> effects
 ) {
     public enum SkillType {
         ATTACK,
         SUPPORT,
         ULTIMATE
-    }
-
-    public enum SkillRange {
-        SINGLE,
-        AOE
     }
 }

@@ -1,0 +1,20 @@
+[
+  {
+    "credentials": {
+      "id": "shield",
+      "name": "Shield",
+      "description": "Simple shield."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 84,
+    "offStat": 25,
+    "setId": null,
+    "activeSkillsIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor"
+    ]
+  }
+]

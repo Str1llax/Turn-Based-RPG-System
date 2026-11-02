@@ -1,0 +1,38 @@
+[
+  {
+    "credentials": {
+      "id": "sword",
+      "name": "Sword",
+      "description": "Simple weapon."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 16,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillsIds": [
+
+    ],
+    "passiveSkillsIds": [
+      "critical_strike"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "stick",
+      "name": "Stick",
+      "description": "Just a stick."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "stick_pig",
+    "mainStat": 10,
+    "offStat": 1,
+    "setId": null,
+    "activeSkillsIds": [
+      "poke"
+    ],
+    "passiveSkillsIds": [
+
+    ]
+  }
+]

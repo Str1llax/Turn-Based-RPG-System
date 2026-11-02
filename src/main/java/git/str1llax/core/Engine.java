@@ -21,11 +21,15 @@ public class Engine {
     }
 
     public void update() {
-        gameContext.stateManager().peek().update();
+        if (isRunning()) {
+            gameContext.stateManager().peek().update();
+        }
     }
 
     public void render() {
-        gameContext.stateManager().peek().render();
+        if (isRunning()) {
+            gameContext.stateManager().peek().render();
+        }
     }
 
     public boolean isRunning() {

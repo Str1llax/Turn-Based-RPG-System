@@ -32,19 +32,8 @@ public class ResourceManager {
     }
 
     private void loadEffects() {
-        for (DTOs.EffectDTO dto : jsonManager.loadEffects()) {
-            SkillEffect effect = new SkillEffect(
-                    dto.Credentials(),
-                    dto.EffectType(),
-                    dto.ExecutionType(),
-                    dto.TriggerType(),
-                    dto.TargetGroup(),
-                    dto.ValueType(),
-                    dto.StatMultiplier(),
-                    dto.triggerChance(),
-                    dto.durationTurns()
-            );
-            effectsRegistry.put(dto.Credentials().id(), effect);
+        for (SkillEffect effect : jsonManager.loadEffects()) {
+            effectsRegistry.put(effect.credentials().id(), effect);
         }
     }
 
@@ -58,9 +47,9 @@ public class ResourceManager {
                 }
             }
             ActiveSkill skill = new ActiveSkill(
-                    dto.Credentials(), dto.SkillType(), dto.SkillRange(), effects
+                    dto.credentials(), dto.skillType(), effects
             );
-            activeSkillsRegistry.put(dto.Credentials().id(), skill);
+            activeSkillsRegistry.put(dto.credentials().id(), skill);
         }
 
         for (DTOs.PassiveSkillDTO dto : jsonManager.loadPassiveSkills()) {
@@ -72,17 +61,17 @@ public class ResourceManager {
                 }
             }
             PassiveSkill skill = new PassiveSkill(
-                    dto.Credentials(), dto.TriggerType(), dto.Condition(), effects
+                    dto.credentials(), dto.triggerType(), dto.condition(), effects
             );
-            passiveSkillsRegistry.put(dto.Credentials().id(), skill);
+            passiveSkillsRegistry.put(dto.credentials().id(), skill);
         }
     }
 
     private void loadEquipment() {
         List<DTOs.EquipmentDTO> allEquipment = new ArrayList<>();
-        allEquipment.addAll(jsonManager.loadEquipment("resources/data/equipment/armor.json"));
-        allEquipment.addAll(jsonManager.loadEquipment("resources/data/equipment/swords.json"));
-        allEquipment.addAll(jsonManager.loadEquipment("resources/data/equipment/shields.json"));
+        allEquipment.addAll(jsonManager.loadEquipment("data/equipment/armor.json"));
+        allEquipment.addAll(jsonManager.loadEquipment("data/equipment/swords.json"));
+        allEquipment.addAll(jsonManager.loadEquipment("data/equipment/shields.json"));
 
         for (DTOs.EquipmentDTO dto : allEquipment) {
             List<ActiveSkill> activeSkills = new ArrayList<>();
@@ -102,23 +91,23 @@ public class ResourceManager {
             }
 
             Equipment equipment = new Equipment(
-                    dto.Credentials(), dto.EquipmentType(), dto.targetId(),
+                    dto.credentials(), dto.equipmentType(), dto.targetId(),
                     dto.mainStat(), dto.offStat(), dto.setId(),
                     activeSkills, passiveSkills
             );
-            equipmentRegistry.put(dto.Credentials().id(), equipment);
+            equipmentRegistry.put(dto.credentials().id(), equipment);
         }
     }
 
     private void loadEntities() {
         for (DTOs.EntityDTO dto : jsonManager.loadHeroes()) {
             Entity hero = buildEntityFromDTO(dto);
-            heroTemplates.put(dto.Credentials().id(), hero);
+            heroTemplates.put(dto.credentials().id(), hero);
         }
 
         for (DTOs.EntityDTO dto : jsonManager.loadEnemies()) {
             Entity enemy = buildEntityFromDTO(dto);
-            enemyTemplates.put(dto.Credentials().id(), enemy);
+            enemyTemplates.put(dto.credentials().id(), enemy);
         }
     }
 
@@ -141,7 +130,7 @@ public class ResourceManager {
             ultimate = activeSkillsRegistry.get(dto.ultimateSkillId());
         }
 
-        return new Entity(dto.Credentials(), dto.BaseStats(), loadout, ultimate);
+        return new Entity(dto.credentials(), dto.baseStats(), loadout, ultimate);
     }
 
     public Entity createHeroInstance(String id) {

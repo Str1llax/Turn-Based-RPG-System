@@ -10,8 +10,7 @@ public class StatusEffect {
     private final int totalDuration;
     private int remainingTurns;
 
-    public StatusEffect(Credentials credentials, SkillEffect.EffectType effectType,
-                        SkillEffect.ExecutionType executionType, double value, int durationTurns) {
+    public StatusEffect(Credentials credentials, SkillEffect.EffectType effectType, SkillEffect.ExecutionType executionType, double value, int durationTurns) {
         this.credentials = credentials;
         this.effectType = effectType;
         this.executionType = executionType;

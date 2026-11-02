@@ -1,0 +1,21 @@
+[
+  {
+    "credentials": {
+      "id": "knight",
+      "name": "Knight",
+      "description": "Initial class."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "red",
+    "mainStat": 24,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillsIds": [
+      "attack",
+      "protect"
+    ],
+    "passiveSkillsIds": [
+
+    ]
+  }
+]

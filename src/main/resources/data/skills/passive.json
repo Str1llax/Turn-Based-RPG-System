@@ -1,0 +1,63 @@
+[
+  {
+    "credentials": {
+      "id": "critical_strike",
+      "name": "Critical Strike",
+      "description": "+15% crit. chance, +50% crit. damage."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "cr_increase_15",
+      "cd_increase_50"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "chain_attack",
+      "name": "Chain Attack",
+      "description": "30% chance to attack an additional random enemy dealing 50% bonus damage."
+    },
+    "triggerType": "ON_ATTACK",
+    "condition": null,
+    "effectIds": [
+      "chain_attack"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "bedtime",
+      "name": "Bedtime",
+      "description": "5% chance to stun target for 1 turn."
+    },
+    "triggerType": "ON_ATTACK",
+    "condition": null,
+    "effectIds": [
+      "stun_1"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "vigor",
+      "name": "Vigor",
+      "description": "Reduces incoming damage by 5%."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "vigor_5"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "might",
+      "name": "Might",
+      "description": "Increases attack power by 5%."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "might_5"
+    ]
+  }
+]

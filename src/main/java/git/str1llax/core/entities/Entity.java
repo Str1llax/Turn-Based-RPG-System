@@ -19,6 +19,8 @@ public class Entity {
     private double attackDamage;
     private double defense;
     private double agility;
+    private double critRate;
+    private double critDamage;
 
     private final Loadout loadout;
     private final ActiveSkill ultimateSkill;
@@ -31,6 +33,9 @@ public class Entity {
         this.loadout = loadout != null ? loadout : new Loadout();
         this.ultimateSkill = ultimateSkill;
         this.statusEffects = new LinkedList<>();
+
+        this.critRate = 0d;
+        this.critDamage = 1d;
 
         recalculateStats();
         this.currentHp = this.maxHp;
@@ -52,29 +57,37 @@ public class Entity {
     }
 
     public void recalculateStats() {
-        double defenseBonus = 0;
-        double hpBonus = 0;
-        double attackBonus = 0;
+        double bonusDF = 0;
+        double bonusHP = 0;
+        double bonusAD = 0;
+        double bonusAG = 0;
+        double bonusCR = 0;
+        double bonusCD = 0;
 
+        // Sword = Attack Damage + Crit. Rate
         if (loadout.getSword() != null) {
-            attackBonus += loadout.getSword().mainStat();
-            hpBonus += loadout.getSword().offStat();
+            bonusAD += loadout.getSword().mainStat();
+            bonusCR += loadout.getSword().offStat();
         }
+        // Shield = HP + Defense
         if (loadout.getShield() != null) {
-            hpBonus += loadout.getShield().mainStat();
-            defenseBonus += loadout.getShield().offStat();
+            bonusHP += loadout.getShield().mainStat();
+            bonusDF += loadout.getShield().offStat();
         }
+        // Armor = Defense + Agility
         if (loadout.getArmor() != null) {
-            hpBonus += loadout.getArmor().mainStat();
-            defenseBonus += loadout.getArmor().offStat();
+            bonusDF += loadout.getArmor().mainStat();
+            bonusAG += loadout.getArmor().offStat();
         }
 
-        //TODO Passives bonus
+        //TODO Passives bonus addition
 
-        this.maxHp = baseStats.maxHp() + hpBonus;
-        this.attackDamage = baseStats.attackDamage() + attackBonus;
-        this.defense = baseStats.defense() +  defenseBonus;
-        this.agility = baseStats.agility();
+        this.maxHp = baseStats.maxHp() + bonusHP;
+        this.attackDamage = baseStats.attackDamage() + bonusAD;
+        this.defense = baseStats.defense() +  bonusDF;
+        this.agility = baseStats.agility() + bonusAG;
+        this.critRate = Math.max(0d, bonusCR);
+        this.critDamage = 1d + bonusCD;
     }
 
     public void equip(Equipment item) {
