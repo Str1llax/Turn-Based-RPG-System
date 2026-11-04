@@ -1,40 +1,55 @@
 package git.str1llax.core.effects;
 
-import git.str1llax.core.utils.Credentials;
+import git.str1llax.core.entities.Entity;
 
 public class StatusEffect {
-    private final Credentials credentials;
-    private final SkillEffect.EffectType effectType;
-    private final SkillEffect.ExecutionType executionType;
+    private final SkillEffect effect;
     private final double value;
     private final int totalDuration;
     private int remainingTurns;
+    private final Entity caster;
 
-    public StatusEffect(Credentials credentials, SkillEffect.EffectType effectType, SkillEffect.ExecutionType executionType, double value, int durationTurns) {
-        this.credentials = credentials;
-        this.effectType = effectType;
-        this.executionType = executionType;
+    public StatusEffect(Entity caster, SkillEffect effect, double value) {
+        this.caster = caster;
+        this.effect = effect;
+        if (effect.durationTurns() == null || effect.durationTurns() == 0) {
+            this.totalDuration = 1;
+        } else {
+            this.totalDuration = effect.durationTurns();
+        }
+        this.remainingTurns = this.totalDuration;
         this.value = value;
-        this.totalDuration = durationTurns;
-        this.remainingTurns = durationTurns;
-    }
-
-    public static StatusEffect fromBlueprint(SkillEffect blueprint, double calculatedValue) {
-        int duration = blueprint.durationTurns() != null ? blueprint.durationTurns() : 1;
-        return new StatusEffect(
-                blueprint.credentials(),
-                blueprint.effectType(),
-                blueprint.executionType(),
-                calculatedValue,
-                duration
-        );
     }
 
     public void tick() {
-        --remainingTurns;
+        if (effect.executionType() != SkillEffect.ExecutionType.CONSTANT) --remainingTurns;
     }
 
     public boolean isExpired() {
         return remainingTurns <= 0;
+    }
+
+    public void setTurns(int newTurns) {
+        this.remainingTurns = newTurns;
+    }
+
+    public int maxDuration() {
+        return this.totalDuration;
+    }
+
+    public double value() {
+        return value;
+    }
+
+    public SkillEffect getEffect() {
+        return effect;
+    }
+
+    public int left() {
+        return remainingTurns;
+    }
+
+    public Entity caster() {
+        return caster;
     }
 }

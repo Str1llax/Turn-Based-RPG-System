@@ -24,6 +24,10 @@ public class ResourceManager {
         this.jsonManager = new JSONManager();
     }
 
+    public static void registerHero(Entity newHero) {
+        heroTemplates.put(newHero.credentials().id(), newHero);
+    }
+
     public void initialize() {
         loadEffects();
         loadSkills();

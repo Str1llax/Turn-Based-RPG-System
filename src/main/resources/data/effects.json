@@ -92,7 +92,7 @@
     "effectType": "DAMAGE",
     "executionType": "INSTANT",
     "targetGroup": "TARGET",
-    "scaleType": "FLAT",
+    "scaleType": "CASTER_ATTACK",
     "statMultiplier": 1.15,
     "triggerChance": 1.00,
     "durationTurns": null
@@ -115,13 +115,13 @@
     "credentials": {
       "id": "protect_55",
       "name": "Protected",
-      "description": "Receive 55% less damage for 2 turns."
+      "description": "Increased Defense by 55% for 2 turns."
     },
     "effectType": "PROTECTION",
     "executionType": "DOT",
     "targetGroup": "SELECTED_ALLY",
     "scaleType": "FLAT",
-    "statMultiplier": 0.45,
+    "statMultiplier": 1.55,
     "triggerChance": 1.00,
     "durationTurns": 2
   },
@@ -134,7 +134,7 @@
     "effectType": "DAMAGE",
     "executionType": "INSTANT",
     "targetGroup": "LEAST_INJURED_ENEMY",
-    "scaleType": "FLAT",
+    "scaleType": "CASTER_ATTACK",
     "statMultiplier": 5.00,
     "triggerChance": 1.00,
     "durationTurns": null
@@ -148,16 +148,16 @@
     "effectType": "DAMAGE",
     "executionType": "INSTANT",
     "targetGroup": "TARGET",
-    "scaleType": "FLAT",
+    "scaleType": "CASTER_ATTACK",
     "statMultiplier": 1.00,
     "triggerChance": 1.00,
     "durationTurns": null
   },
   {
     "credentials": {
-      "id": "stun_1",
+      "id": "stun_self_1",
       "name": "Stumble",
-      "description": "Does nothing"
+      "description": "Stuns self"
     },
     "effectType": "STUN",
     "executionType": "INSTANT",

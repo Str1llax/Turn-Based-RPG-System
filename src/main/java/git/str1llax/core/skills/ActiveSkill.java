@@ -13,6 +13,7 @@ public record ActiveSkill(
     public enum SkillType {
         ATTACK,
         SUPPORT,
-        ULTIMATE
+        ATTACK_ULTIMATE,
+        SUPPORT_ULTIMATE
     }
 }

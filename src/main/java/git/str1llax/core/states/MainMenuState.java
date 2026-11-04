@@ -12,7 +12,7 @@ public class MainMenuState implements GameState {
 
     @Override
     public void load() {
-        System.out.println("Welcome to the Angry Birds: EPIC! CLI Remake");
+        System.out.println("\n=== Welcome to the Angry Birds: EPIC! CLI Remake ===");
         System.out.println("Enter:");
         System.out.println("1. Start game.");
         System.out.println("2. Exit game.");
@@ -21,7 +21,7 @@ public class MainMenuState implements GameState {
     @Override
     public void update() {
         switch (InputManager.getValidInput(1, 2)) {
-            case 1 -> System.out.println("Coming in the future!");//gameContext.stateManager().push(new GamePreparationState(gameContext));
+            case 1 -> gameContext.stateManager().push(new BattlePreparationState(gameContext));
             case 2 -> gameContext.stateManager().pop();
         }
     }

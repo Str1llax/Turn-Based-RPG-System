@@ -10,11 +10,11 @@
     "mainStat": 24,
     "offStat": 5,
     "setId": null,
-    "activeSkillsIds": [
+    "activeSkillIds": [
       "attack",
       "protect"
     ],
-    "passiveSkillsIds": [
+    "passiveSkillIds": [
 
     ]
   }

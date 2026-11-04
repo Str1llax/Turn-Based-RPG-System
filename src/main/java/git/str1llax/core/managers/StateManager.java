@@ -17,6 +17,7 @@ public class StateManager {
 
     public void pop() {
         stateMachine.pop().unload();
+        if (!stateMachine.isEmpty()) stateMachine.peek().load();
     }
 
     public GameState peek() {

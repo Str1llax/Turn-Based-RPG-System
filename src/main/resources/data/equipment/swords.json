@@ -10,10 +10,10 @@
     "mainStat": 16,
     "offStat": 5,
     "setId": null,
-    "activeSkillsIds": [
+    "activeSkillIds": [
 
     ],
-    "passiveSkillsIds": [
+    "passiveSkillIds": [
       "critical_strike"
     ]
   },
@@ -28,10 +28,10 @@
     "mainStat": 10,
     "offStat": 1,
     "setId": null,
-    "activeSkillsIds": [
+    "activeSkillIds": [
       "poke"
     ],
-    "passiveSkillsIds": [
+    "passiveSkillIds": [
 
     ]
   }

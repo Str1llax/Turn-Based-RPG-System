@@ -28,7 +28,7 @@
       "name": "Heroic Strike",
       "description": "Deals 500% damage to the enemy with the most health."
     },
-    "skillType": "ULTIMATE",
+    "skillType": "ATTACK_ULTIMATE",
     "effectIds": [
       "heroic_strike"
     ]
@@ -53,7 +53,7 @@
     },
     "skillType": "ATTACK",
     "effectIds": [
-      "stumble"
+      "stun_self_1"
     ]
   }
 ]
