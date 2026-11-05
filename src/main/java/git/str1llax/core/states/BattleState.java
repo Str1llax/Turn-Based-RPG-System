@@ -73,9 +73,6 @@ public class BattleState implements GameState {
     }
 
     private void initializeBattle() {
-        // Execute CONSTANT passives for all entities
-        // Recalculate stats
-
         for (Entity hero : battleContext.getHeroes()) {
             hero.recalculateStats();
         }
@@ -223,10 +220,6 @@ public class BattleState implements GameState {
         }
 
         state = State.ROUND_END;
-        // if ActiveSkill type ATTACK or ATTACK_ULTIMATE apply ON_ATTACK passives and Status effects
-        // if ActiveSkill type SUPPORT or SUPPORT_ULTIMATE apply NONE passives
-        // if receiving damage apply ON_DEFENSE passives and Status effects
-        // if not alive check for resurrection effect in passives and status
     }
 
     private void processAI() {
@@ -284,17 +277,13 @@ public class BattleState implements GameState {
             effectProcessor.processEffect(effect, activeEntity, target, battleContext);
         }
         state = State.ROUND_END;
-        // Find lowest hp hero to attack
-        // Find weakest health ally to apply supporting effect
-        // Calculate priorities
-        // Execute effects
     }
 
     private void processResults() {
         for (Entity hero : battleContext.getHeroes()) {
-            if (hero.isDead() && !hero.statusEffects().removeIf(s -> s.getEffect().effectType() == SkillEffect.EffectType.REVIVE)) {
+            if (hero.isDead() && battleContext.getLivingEnemies().stream().noneMatch(e -> e.getLoadout().getActiveSkills().stream().anyMatch(s -> s.effects().stream().anyMatch(f -> f.effectType() == SkillEffect.EffectType.REVIVE)))) {
                 if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && fixedTurnOrder != null) {
-                    fixedTurnOrder.remove(hero);
+                    fixedIterator.remove();
                 } else if (dynamicTurnOrder != null) {
                     dynamicTurnOrder.remove(hero);
                 }
@@ -311,9 +300,6 @@ public class BattleState implements GameState {
         }
 
         state = State.CHECK_OUTCOME;
-        // check for dead entities
-        // remove or don't add if entity is dead
-        // and no resurrection skills are presented in ally team
     }
 
     private void checkOutcome() {
@@ -324,12 +310,9 @@ public class BattleState implements GameState {
         } else {
             prepareNextTurn();
         }
-        //If every enemy died win()
-        //If every hero died lose()
     }
 
     private void win() {
-        //You win, press something to exit to main menu
         System.out.println("YOU WIN! The pigs have been defeated.");
         System.out.println("Press ENTER to return to the battle preparation");
         InputManager.SCANNER.nextLine();
@@ -337,7 +320,6 @@ public class BattleState implements GameState {
     }
 
     private void lose() {
-        //You win, press something to exit to main menu
         System.out.println("YOU LOSE! The birds were knocked out.");
         System.out.println("Press ENTER to return to the battle preparation");
         InputManager.SCANNER.nextLine();
@@ -345,19 +327,6 @@ public class BattleState implements GameState {
     }
 
     private void renderStats() {
-        System.out.println("\n--- Turn Order ---");
-        if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && fixedTurnOrder != null) {
-            int i = 1;
-            for (Entity entity : fixedTurnOrder) {
-                System.out.printf("%d. %s\n", i, entity.credentials().name());
-                ++i;
-            }
-        } else if (dynamicTurnOrder != null) {
-            CLinkedList<Entity>.CircularIterator iterator = dynamicIterator;
-            for (int i = 1; i < dynamicTurnOrder.size(); i++) {
-                System.out.printf("%d. %s\n", i, iterator.next().credentials().name());
-            }
-        }
         int i = 1;
         System.out.println("\n--- YOUR TEAM ---");
         for (Entity hero : battleContext.getHeroes()) {

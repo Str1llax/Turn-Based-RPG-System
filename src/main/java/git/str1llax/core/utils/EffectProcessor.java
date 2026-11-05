@@ -3,6 +3,7 @@ package git.str1llax.core.utils;
 import git.str1llax.core.effects.SkillEffect;
 import git.str1llax.core.effects.StatusEffect;
 import git.str1llax.core.entities.Entity;
+import git.str1llax.core.skills.PassiveSkill;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +18,6 @@ public class EffectProcessor {
         }
 
         List<Entity> targets = resolveTargets(effect.targetGroup(), caster, primaryTarget, context);
-        double damageTracked = context.getLastDamage();
 
         for  (Entity target : targets) {
             if (target.isDead() && effect.effectType() != SkillEffect.EffectType.REVIVE) {
@@ -27,10 +27,10 @@ public class EffectProcessor {
             double calculatedValue = calculateScaledValue(effect, caster, target, context);
 
             switch (effect.executionType()) {
-                case INSTANT -> applyInstant(effect, caster, target, context, calculatedValue);
-                case DOT -> applyDoT(effect, caster, target, context, calculatedValue);
-                case CHARGE -> applyCharge(effect, caster, target, context, calculatedValue);
-                case CONSTANT -> applyConstant(effect, caster, target, context, calculatedValue);
+                case INSTANT -> applyInstant(effect, caster, target, context, calculatedValue); // Execute general effect logic
+                case DOT -> applyDoT(effect, caster, target, context, calculatedValue); // Add to the target effect as status with DoT logic
+                case CHARGE -> applyCharge(effect, caster, target, context, calculatedValue); // Add to the target effect as status with Charge logic
+                case CONSTANT -> applyConstant(effect, caster, target, context, calculatedValue); // Execute stat modifier logic or add effect as constant status (but don't stack)
             }
         }
     }
@@ -84,8 +84,8 @@ public class EffectProcessor {
     private void applyInstant(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
         switch (effect.effectType()) {
             case DAMAGE, BONUS_DAMAGE -> {
+                //apply ON_ATTACK passives
                 double damage = random.nextDouble() < caster.critRate() ? value * caster.critDamage() : value;
-                //TODO elemental mult.
                 target.receiveDamage(damage);
                 context.setLastDamage(damage);
                 context.addRageChili(damage * 20d);
@@ -94,16 +94,17 @@ public class EffectProcessor {
                     List<StatusEffect> thorns = target.statusEffects().stream().filter(s -> s.getEffect().effectType() == SkillEffect.EffectType.THORN).toList();
                     double reflectedDamage = 0d;
                     for (StatusEffect thorn : thorns) {
-                        reflectedDamage += damage * thorn.value();
+                        reflectedDamage += thorn.getEffect().scaleType() == SkillEffect.ScaleType.DAMAGE_DEALT ? damage * thorn.value() : thorn.value();
                     }
                     caster.receiveDamage(reflectedDamage);
-                    System.out.printf("%s reflected %f damage back to %s\n", target.credentials().name(), reflectedDamage, caster.credentials().name());
+                    System.out.printf("%s reflected %.2f damage back to %s\n", target.credentials().name(), reflectedDamage, caster.credentials().name());
                 }
             }
             case HEAL -> {
+                //apply ON_HEAL passives
                 target.heal(value);
                 context.setLastHeal(value);
-                System.out.printf("%s healed %.0f\n", target.credentials().name(), value);
+                System.out.printf("%s healed %.2f\n", target.credentials().name(), value);
             }
             case HEALTH_BOOST -> target.modifyMaxHpBy(value);
             case FOCUS -> target.focus(caster);
@@ -113,11 +114,16 @@ public class EffectProcessor {
             case SPEED, SLOWNESS -> target.modifyAgilityBy(value);
             case STUN -> target.setStunned(true);
             case DISPEL_BUFFS -> target.statusEffects().removeIf(s ->
+                    s.getEffect().effectType() == SkillEffect.EffectType.HEAL ||
                     s.getEffect().effectType() == SkillEffect.EffectType.HEALTH_BOOST ||
                     s.getEffect().effectType() == SkillEffect.EffectType.THORN ||
                     s.getEffect().effectType() == SkillEffect.EffectType.PROTECTION ||
                     s.getEffect().effectType() == SkillEffect.EffectType.STRENGTH ||
-                    s.getEffect().effectType() == SkillEffect.EffectType.SPEED
+                    s.getEffect().effectType() == SkillEffect.EffectType.SPEED ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.IMMUNE ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.REVIVE ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_RATE ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_DAMAGE
             );
             case DISPEL_DEBUFFS -> target.statusEffects().removeIf(s ->
                     s.getEffect().effectType() == SkillEffect.EffectType.DAMAGE ||
@@ -141,8 +147,7 @@ public class EffectProcessor {
     }
 
     private void applyCharge(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
-        caster.focus(target);
-        caster.addStatusEffect(new StatusEffect(caster, effect, value));
+        target.addStatusEffect(new StatusEffect(caster, effect, value));
     }
 
     private void applyConstant(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
@@ -173,14 +178,38 @@ public class EffectProcessor {
         }
     }
 
+    public void processPassive(PassiveSkill skill, Entity owner, BattleContext context) {
+        boolean triggers = shouldTriggerPassive(skill, owner, context);
+        if (triggers) {
+            for (SkillEffect effect : skill.effects()) {
+                processEffect(effect, owner, owner, context);
+            }
+        }
+    }
+
+    private boolean shouldTriggerPassive(PassiveSkill skill, Entity owner, BattleContext context) {
+        if (skill.condition() == null) return true;
+        PassiveSkill.PassiveCondition condition = skill.condition();
+        return switch (condition.conditionType()) {
+            case HP_BELOW_PERCENT -> owner.currentHp() / owner.maxHp() < condition.threshold();
+            case HP_ABOVE_PERCENT -> owner.currentHp() / owner.maxHp() > condition.threshold();
+            case PER_EACH_ALLY_DOWN, PER_EACH_ENEMY_DOWN -> true;
+            case DAMAGE_MORE_THAN -> context.getLastDamage() > condition.threshold();
+            case DAMAGE_LESS_THAN -> context.getLastDamage() < condition.threshold();
+            case ON_DEATH -> owner.isDead();
+            case RAGE_CHILI_BELOW -> context.getRageChili() < condition.threshold();
+            case RAGE_CHILI_ABOVE -> context.getRageChili() > condition.threshold();
+        };
+    }
+
     public static void applyConstantStatModifier(SkillEffect effect, Entity target) {
         switch (effect.effectType()) {
-            case HEALTH_BOOST ->  target.modifyMaxHpBy(target.baseStats().maxHp() * effect.statMultiplier());
-            case PROTECTION -> target.modifyDefenseBy(target.baseStats().defense() * effect.statMultiplier());
-            case STRENGTH -> target.modifyAttackBy(target.baseStats().attackDamage() * effect.statMultiplier());
-            case WEAKNESS -> target.modifyAttackBy(-target.baseStats().attackDamage() * effect.statMultiplier());
-            case SPEED -> target.modifyAgilityBy(target.baseStats().agility() * effect.statMultiplier());
-            case SLOWNESS ->  target.modifyAgilityBy(-target.baseStats().agility() * effect.statMultiplier());
+            case HEALTH_BOOST ->  target.modifyMaxHpBy(target.getInitialHp() * effect.statMultiplier());
+            case PROTECTION -> target.modifyDefenseBy(target.getInitialDefense() * effect.statMultiplier());
+            case STRENGTH -> target.modifyAttackBy(target.getInitialAttack() * effect.statMultiplier());
+            case WEAKNESS -> target.modifyAttackBy(-target.getInitialAttack() * effect.statMultiplier());
+            case SPEED -> target.modifyAgilityBy(target.getInitialAgility() * effect.statMultiplier());
+            case SLOWNESS ->  target.modifyAgilityBy(-target.getInitialAgility() * effect.statMultiplier());
             case MODIFY_CRIT_RATE -> target.modifyCritRateBy(effect.statMultiplier());
             case MODIFY_CRIT_DAMAGE -> target.modifyCritDamageBy(effect.statMultiplier());
             default -> {}

@@ -80,28 +80,12 @@ public class Entity {
     }
 
     public void recalculateStats() {
-        double bonusDF = 0;
-        double bonusHP = 0;
-        double bonusAD = 0;
-        double bonusAG = 0;
-        double bonusCR = 0;
-        double bonusCD = 0;
-
-        // Sword = Attack Damage + Crit. Rate
-        if (loadout.getSword() != null) {
-            bonusAD += loadout.getSword().mainStat();
-            bonusCR += loadout.getSword().offStat() * 0.01;
-        }
-        // Shield = HP + Defense
-        if (loadout.getShield() != null) {
-            bonusHP += loadout.getShield().mainStat();
-            bonusDF += loadout.getShield().offStat();
-        }
-        // Armor = Defense + Agility
-        if (loadout.getArmor() != null) {
-            bonusDF += loadout.getArmor().mainStat();
-            bonusAG += loadout.getArmor().offStat();
-        }
+        this.maxHp = getInitialHp();
+        this.attackDamage = getInitialAttack();
+        this.defense = getInitialDefense();
+        this.agility = getInitialAgility();
+        this.critRate = getInitialCritRate();
+        this.critDamage = getInitialCritDamage();
 
         for (PassiveSkill skill : this.loadout.getPassiveSkills()) {
             if (skill.triggerType() == PassiveSkill.TriggerType.CONSTANT) {
@@ -110,26 +94,16 @@ public class Entity {
                 }
             }
         }
-        for (StatusEffect effect : this.statusEffects) {
-            if (effect.getEffect().executionType() == SkillEffect.ExecutionType.CONSTANT) {
-                EffectProcessor.applyConstantStatModifier(effect.getEffect(), this);
+        for (StatusEffect status : this.statusEffects) {
+            if (status.getEffect().executionType() == SkillEffect.ExecutionType.CONSTANT) {
+                EffectProcessor.applyConstantStatModifier(status.getEffect(), this);
             }
         }
-
-        this.maxHp = baseStats.maxHp() + bonusHP;
-        this.attackDamage = baseStats.attackDamage() + bonusAD;
-        this.defense = baseStats.defense() +  bonusDF;
-        this.agility = baseStats.agility() + bonusAG;
-        this.critRate = Math.max(0d, bonusCR);
-        this.critDamage = 1d + bonusCD;
     }
 
     public void reset() {
         this.statusEffects.clear();
         this.focusedOn.clear();
-
-        this.critRate = 0d;
-        this.critDamage = 1d;
 
         this.immune = false;
         this.stunned = false;
@@ -139,21 +113,73 @@ public class Entity {
         this.currentHp = this.maxHp;
     }
 
-    public void equip(Equipment item) {
+    public double getInitialHp() {
+        double hp = baseStats.maxHp();
+        if (loadout.getShield() != null) {
+            hp += loadout.getShield().mainStat();
+        }
+        return Math.max(hp, 1d);
+    }
+
+    public double getInitialDefense() {
+        double def = baseStats.defense();
+        if (loadout.getShield() != null) {
+            def += loadout.getShield().offStat();
+        }
+        if (loadout.getArmor() != null) {
+            def += loadout.getShield().offStat();
+        }
+        return Math.max(def, 0d);
+    }
+
+    public double getInitialAttack() {
+        double attack = baseStats.attackDamage();
+        if (loadout.getSword() != null) {
+            attack += loadout.getSword().mainStat();
+        }
+        return Math.max(attack, 1d);
+    }
+
+    public double getInitialAgility() {
+        double agility = baseStats.agility();
+        if (loadout.getArmor() != null) {
+            agility += loadout.getArmor().offStat();
+        }
+        return Math.max(agility, 1d);
+    }
+
+    public double getInitialCritRate() {
+        double cr = 0d;
+        if (loadout.getSword() != null) {
+            cr += loadout.getSword().offStat() * 0.01;
+        }
+        return Math.max(cr, 0d);
+    }
+
+    public double getInitialCritDamage() {
+        double cd = 1d;
+        //TODO add stat
+        return Math.max(cd, 1d);
+    }
+
+    public Loadout equip(Equipment item) {
         this.loadout.equip(item);
         recalculateStats();
+        return this.loadout;
     }
 
     public void heal(double amount) {
-        this.currentHp = Math.max(this.maxHp, currentHp + amount);
+        this.currentHp = Math.min(this.maxHp, currentHp + amount);
     }
 
     public void receiveDamage(double amount) {
+        //APPLY ON_DEFENSE passives somehow
         if (isDead() || this.immune) return;
 
         double damageMultiplier = 1d - (this.defense / (this.defense + 300));
         double finalDamage = amount * damageMultiplier;
 
+        System.out.printf("%s took %.2f damage\n", credentials.name(), finalDamage);
         this.currentHp = Math.max(0d, this.currentHp - finalDamage);
     }
 
@@ -188,7 +214,7 @@ public class Entity {
 
     public void addStatusEffect(StatusEffect effect) {
         for (StatusEffect eff3ct : this.statusEffects) {
-            if (eff3ct.getEffect().credentials().id().equals(effect.getEffect().credentials().id())) {
+            if (eff3ct.getEffect().equals(effect.getEffect())) {
                 eff3ct.setTurns(effect.maxDuration());
                 return;
             }
@@ -196,12 +222,12 @@ public class Entity {
         this.statusEffects.add(effect);
     }
 
-    public Credentials credentials() {
-        return credentials;
+    public LinkedList<StatusEffect> statusEffects() {
+        return statusEffects;
     }
 
-    public BaseStats baseStats() {
-        return baseStats;
+    public Credentials credentials() {
+        return credentials;
     }
 
     public double maxHp() {
@@ -240,10 +266,6 @@ public class Entity {
         return ultimateSkill;
     }
 
-    public LinkedList<StatusEffect> statusEffects() {
-        return statusEffects;
-    }
-
     public void focus(Entity entity) {
         if (this.focusedOn.contains(entity)) return;
         this.focusedOn.add(entity);
@@ -251,6 +273,10 @@ public class Entity {
 
     public List<Entity> getFocusedOn() {
         return focusedOn;
+    }
+
+    public boolean isFocused() {
+        return !focusedOn.isEmpty();
     }
 
     public void clearFocus() {

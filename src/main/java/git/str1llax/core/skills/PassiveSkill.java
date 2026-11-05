@@ -31,6 +31,7 @@ public record PassiveSkill(
     public enum TriggerType {
         ON_ATTACK,
         ON_DEFENSE,
+        ON_HEAL,
         CONSTANT
     }
 }
