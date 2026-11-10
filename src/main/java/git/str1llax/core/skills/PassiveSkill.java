@@ -18,8 +18,6 @@ public record PassiveSkill(
         public enum ConditionType {
             HP_BELOW_PERCENT,
             HP_ABOVE_PERCENT,
-            PER_EACH_ALLY_DOWN,
-            PER_EACH_ENEMY_DOWN,
             DAMAGE_MORE_THAN,
             DAMAGE_LESS_THAN,
             ON_DEATH,

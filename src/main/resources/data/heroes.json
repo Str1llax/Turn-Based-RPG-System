@@ -17,5 +17,81 @@
       "shieldId": "shield"
     },
     "ultimateSkillId": "heroic_strike"
+  },
+  {
+    "credentials": {
+      "id": "chuck",
+      "name": "Chuck",
+      "description": "A powerful wizard. Deals damage to all enemies at once!"
+    },
+    "baseStats": {
+      "maxHp": 18,
+      "attackDamage": 12,
+      "defense": 6,
+      "agility": 15
+    },
+    "defaultLoadout": {
+      "armorId": "mage",
+      "swordId": "staff",
+      "shieldId": "book"
+    },
+    "ultimateSkillId": "speed_of_light"
+  },
+  {
+    "credentials": {
+      "id": "matilda",
+      "name": "Matilda",
+      "description": "A strong healer who also packs quite a punch!"
+    },
+    "baseStats": {
+      "maxHp": 40,
+      "attackDamage": 6,
+      "defense": 8,
+      "agility": 10
+    },
+    "defaultLoadout": {
+      "armorId": "cleric",
+      "swordId": "harp",
+      "shieldId": "handbag"
+    },
+    "ultimateSkillId": "matildas_medicine"
+  },
+  {
+    "credentials": {
+      "id": "bomb",
+      "name": "Bomb",
+      "description": "Likes to beat up enemies with powerful attacks - one pig at a time."
+    },
+    "baseStats": {
+      "maxHp": 36,
+      "attackDamage": 10,
+      "defense": 10,
+      "agility": 8
+    },
+    "defaultLoadout": {
+      "armorId": "pirate",
+      "swordId": "punching_glove",
+      "shieldId": "treasure_map"
+    },
+    "ultimateSkillId": "explode"
+  },
+  {
+    "credentials": {
+      "id": "blues",
+      "name": "Jay, Jake and Jim",
+      "description": "Jacks of all trades. But they really excel in dealing tons of damage!"
+    },
+    "baseStats": {
+      "maxHp": 30,
+      "attackDamage": 8,
+      "defense": 8,
+      "agility": 11
+    },
+    "defaultLoadout": {
+      "armorId": "tricksters",
+      "swordId": "bow",
+      "shieldId": "warhorn"
+    },
+    "ultimateSkillId": "egg_surprise"
   }
 ]

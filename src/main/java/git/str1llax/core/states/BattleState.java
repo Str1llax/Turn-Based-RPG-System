@@ -5,6 +5,7 @@ import git.str1llax.core.effects.StatusEffect;
 import git.str1llax.core.entities.Entity;
 import git.str1llax.core.managers.InputManager;
 import git.str1llax.core.skills.ActiveSkill;
+import git.str1llax.core.skills.PassiveSkill;
 import git.str1llax.core.utils.BattleContext;
 import git.str1llax.core.utils.CLinkedList;
 import git.str1llax.core.utils.EffectProcessor;
@@ -199,6 +200,7 @@ public class BattleState implements GameState {
                 }
                 int targetChoice = InputManager.getValidInput(1, livingEnemies.size()) - 1;
                 target = livingEnemies.get(targetChoice);
+                effectProcessor.applyPassives(PassiveSkill.TriggerType.ON_DEFENSE, activeEntity, target, battleContext);
 
             }
             case SUPPORT, SUPPORT_ULTIMATE -> {

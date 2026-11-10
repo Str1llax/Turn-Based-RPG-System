@@ -3,23 +3,144 @@
     "credentials": {
       "id": "attack",
       "name": "Attack",
-      "description": "Deals 115% AD damage, forcing target to attack Red for 3 turns."
+      "description": "Deals 115% damage, forcing target to attack Red for 3 turns."
     },
     "skillType": "ATTACK",
     "effectIds": [
       "damage_115",
-      "focus_3"
+      "focus_self_3"
     ]
   },
   {
     "credentials": {
       "id": "protect",
       "name": "Protect",
-      "description": "Target bird receives 55% less damage for 2 turns."
+      "description": "Target ally receives 55% less damage for 2 turns."
     },
     "skillType": "SUPPORT",
     "effectIds": [
       "protect_55"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "overpower",
+      "name": "Overpower",
+      "description": "Deals 110% damage, reducing target's attack power by 25% for 2 turns."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_110",
+      "weakness_25_dot_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "aura_of_fortitude",
+      "name": "Aura of Fortitude",
+      "description": "All allies receive 25% less damage for 4 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "protect_25_4_aoe"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "dragon_strike",
+      "name": "Dragon Strike",
+      "description": "Deals 3x 50% damage"
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_50",
+      "damage_50",
+      "damage_50"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "defensive_formation",
+      "name": "Defensive Formation",
+      "description": "Target ally receives 50% less damage and all other allies receive 40% less damage. Lasts 1 turn."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "protect_40_1_aoe",
+      "protect_50_1"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "revenge",
+      "name": "Revenge",
+      "description": "Deals 90% AD damage, which increases by 2% per 1% health lost."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "strength_by_hp_left",
+      "damage_90"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "i_dare_you",
+      "name": "I Dare You!",
+      "description": "Forces all enemies to attack target ally, which receives 20% less damage. Lasts 2 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "protect_20_2",
+      "focus_target_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "holy_strike",
+      "name": "Holy Strike",
+      "description": "Deals 135% damage. Ally with most of its health depleted is healed for 30% of the damage dealt."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_135",
+      "heal_30_damage_dealt"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "devotion",
+      "name": "Devotion",
+      "description": "Receives damage instead of target ally, and takes 40% less damage. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "protect_40_3",
+      "put_self_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "feral_assault",
+      "name": "Feral Assault",
+      "description": "Deals 2x 65% damage. Targets with negative effects receive 150% damage."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_65",
+      "damage_65",
+      "stun_2_25"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "ancestral_protection",
+      "name": "Ancestral Protection",
+      "description": "Enemies deal 40% less damage for 3 turns after attacking the target bird. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "protect_40_3",
+      "weakness_40_aoe_3"
     ]
   },
   {

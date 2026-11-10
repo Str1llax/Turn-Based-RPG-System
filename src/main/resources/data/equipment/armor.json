@@ -7,12 +7,107 @@
     },
     "equipmentType": "ARMOR",
     "targetId": "red",
-    "mainStat": 24,
-    "offStat": 5,
+    "mainStat": 20,
+    "offStat": 10,
     "setId": null,
     "activeSkillIds": [
       "attack",
       "protect"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "guardian",
+      "name": "Guardian",
+      "description": "Protects whole team!"
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "red",
+    "mainStat": 25,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillIds": [
+      "overpower",
+      "aura_of_fortitude"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "samurai",
+      "name": "Samurai",
+      "description": "Fearless warrior"
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "red",
+    "mainStat": 15,
+    "offStat": 15,
+    "setId": null,
+    "activeSkillIds": [
+      "dragon_strike",
+      "defensive_formation"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "avenger",
+      "name": "Avenger",
+      "description": "He's here to get his revenge"
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "red",
+    "mainStat": 15,
+    "offStat": 20,
+    "setId": null,
+    "activeSkillIds": [
+      "revenge",
+      "i_dare_you"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "paladin",
+      "name": "Paladin",
+      "description": "Holy knight"
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "red",
+    "mainStat": 25,
+    "offStat": 15,
+    "setId": null,
+    "activeSkillIds": [
+      "holy_strike",
+      "devotion"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "stone_guard",
+      "name": "Stone Guard",
+      "description": "Ancient Aztec techniques"
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "red",
+    "mainStat": 30,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillIds": [
+      "feral_assault",
+      "ancestral_protection"
     ],
     "passiveSkillIds": [
 

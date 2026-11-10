@@ -15,6 +15,20 @@
   },
   {
     "credentials": {
+      "id": "cr_increase_23",
+      "name": "Accurate",
+      "description": "Increases crit. rate by 23%"
+    },
+    "effectType": "MODIFY_CRIT_RATE",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.23,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
       "id": "cd_increase_50",
       "name": "Strong",
       "description": "Increases crit. damage by 50%"
@@ -29,21 +43,49 @@
   },
   {
     "credentials": {
-      "id": "chain_attack_30",
+      "id": "cd_increase_75",
+      "name": "Strong",
+      "description": "Increases crit. damage by 75%"
+    },
+    "effectType": "MODIFY_CRIT_DAMAGE",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.75,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "chain_attack_50_30",
       "name": "Chain Attack",
       "description": "Attacks additional random enemy."
     },
-    "effectType": "BONUS_DAMAGE",
+    "effectType": "DAMAGE",
     "executionType": "INSTANT",
     "targetGroup": "RANDOM_ENEMY",
-    "scaleType": "FLAT",
-    "statMultiplier": null,
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.5,
     "triggerChance": 0.30,
     "durationTurns": null
   },
   {
     "credentials": {
-      "id": "stun_1",
+      "id": "chain_attack_65_45",
+      "name": "Chain Attack",
+      "description": "Attacks additional random enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.65,
+    "triggerChance": 0.45,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "stun_1_5",
       "name": "Stunned",
       "description": "Can't move."
     },
@@ -57,16 +99,86 @@
   },
   {
     "credentials": {
+      "id": "stun_2_25",
+      "name": "Stun",
+      "description": "Makes target skip turn"
+    },
+    "effectType": "STUN",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 0.25,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "stun_1_8",
+      "name": "Stun",
+      "description": "Makes target skip turn"
+    },
+    "effectType": "STUN",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 0.08,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
       "id": "vigor_5",
       "name": "Vigor",
-      "description": "Reduces incoming damage by 5%."
+      "description": "Increases defense by 5%."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "CONSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.05,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "protectors_aura",
+      "name": "Protectors Aura",
+      "description": "Increases defense by 20%."
     },
     "effectType": "PROTECTION",
     "executionType": "CONSTANT",
     "targetGroup": "SELF",
-    "scaleType": "FLAT",
-    "statMultiplier": 0.95,
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.20,
     "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "grand_slam",
+      "name": "Grand Slam",
+      "description": "The hammer's stun effect lasts +1 turn."
+    },
+    "effectType": "STRENGTH",
+    "executionType": "CONSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.20,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "dragon_breath",
+      "name": "Dragon Breath",
+      "description": "45% chance to deal 75% bonus damage to all targets."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "ON_ATTACK",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.75,
+    "triggerChance": 0.45,
     "durationTurns": null
   },
   {
@@ -78,8 +190,50 @@
     "effectType": "STRENGTH",
     "executionType": "CONSTANT",
     "targetGroup": "SELF",
-    "scaleType": "FLAT",
-    "statMultiplier": 1.05,
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.05,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "strength_by_hp",
+      "name": "Furious",
+      "description": "Increases attack power by 2% per 1% lost health."
+    },
+    "effectType": "STRENGTH",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "CASTER_LOST_HP_PERCENT",
+    "statMultiplier": 0.02,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_50",
+      "name": "Attack",
+      "description": "Deals 50% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.5,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_90",
+      "name": "Attack",
+      "description": "Deals 90% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.9,
     "triggerChance": 1.00,
     "durationTurns": null
   },
@@ -99,11 +253,137 @@
   },
   {
     "credentials": {
-      "id": "focus_3",
+      "id": "damage_110",
+      "name": "Attack",
+      "description": "Deals 110% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 1.10,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_135",
+      "name": "Attack",
+      "description": "Deals 135% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 1.35,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "weakness_25_dot_2",
+      "name": "Weak",
+      "description": "Lowers attack power."
+    },
+    "effectType": "WEAKNESS",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.25,
+    "triggerChance": 1.00,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "heal_30_damage_dealt",
+      "name": "Heal",
+      "description": "Restores health."
+    },
+    "effectType": "HEAL",
+    "executionType": "INSTANT",
+    "targetGroup": "MOST_INJURED_ALLY",
+    "scaleType": "DAMAGE_DEALT",
+    "statMultiplier": 0.3,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "protect_25_4_aoe",
+      "name": "Protected",
+      "description": "Increases defense by 25% for 4 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.25,
+    "triggerChance": 1.00,
+    "durationTurns": 4
+  },
+  {
+    "credentials": {
+      "id": "protect_40_1_aoe",
+      "name": "Protected",
+      "description": "Increases defense by 40% for 1 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.40,
+    "triggerChance": 1.00,
+    "durationTurns": 1
+  },
+  {
+    "credentials": {
+      "id": "protect_40_3",
+      "name": "Protected",
+      "description": "Increases defense by 40% for 3 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "SELF",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.40,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "protect_50_1",
+      "name": "Protected",
+      "description": "Increases defense by 50% for 1 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.50,
+    "triggerChance": 1.00,
+    "durationTurns": 1
+  },
+  {
+    "credentials": {
+      "id": "protect_20_2",
+      "name": "Protected",
+      "description": "Increases defense by 20% for 2 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "SELECTED_ALLY",
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.20,
+    "triggerChance": 1.00,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "focus_self_3",
       "name": "Focus",
       "description": "Forces to attack focused entity."
     },
-    "effectType": "FOCUS",
+    "effectType": "FOCUS_SELF",
     "executionType": "DOT",
     "targetGroup": "TARGET",
     "scaleType": "FLAT",
@@ -113,15 +393,57 @@
   },
   {
     "credentials": {
-      "id": "protect_55",
+      "id": "focus_target_2",
+      "name": "Focus",
+      "description": "Forces to attack focused entity."
+    },
+    "effectType": "FOCUS_TARGET",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "put_self_3",
+      "name": "Defender",
+      "description": "You take hit for the target."
+    },
+    "effectType": "PUT_SELF",
+    "executionType": "DOT",
+    "targetGroup": "SELECTED_ALLY",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "weakness_40_3_aoe",
+      "name": "Weakness",
+      "description": "Lowers attack power."
+    },
+    "effectType": "WEAKNESS",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.4,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "protect_55_dot_2",
       "name": "Protected",
       "description": "Increased Defense by 55% for 2 turns."
     },
     "effectType": "PROTECTION",
     "executionType": "DOT",
     "targetGroup": "SELECTED_ALLY",
-    "scaleType": "FLAT",
-    "statMultiplier": 1.55,
+    "scaleType": "TARGET_DEFENSE",
+    "statMultiplier": 0.55,
     "triggerChance": 1.00,
     "durationTurns": 2
   },

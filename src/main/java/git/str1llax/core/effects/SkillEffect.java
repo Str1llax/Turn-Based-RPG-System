@@ -14,10 +14,12 @@ public record SkillEffect(
 ) {
     public enum EffectType {
         DAMAGE,
-        BONUS_DAMAGE,
         HEAL,
         HEALTH_BOOST,
-        FOCUS,
+        FOCUS_SELF,
+        FOCUS_TARGET,
+        PUT_SELF,
+        PUT_TARGET,
         THORN,
         PROTECTION,
         WEAKNESS,
@@ -64,13 +66,21 @@ public record SkillEffect(
         HEAL_RECEIVED,
         CASTER_MAX_HP,
         CASTER_CURRENT_HP,
+        CASTER_LOST_HP,
+        CASTER_CURRENT_HP_PERCENT,
+        CASTER_LOST_HP_PERCENT,
         CASTER_ATTACK,
         CASTER_DEFENSE,
         CASTER_AGILITY,
         TARGET_MAX_HP,
         TARGET_CURRENT_HP,
+        TARGET_LOST_HP,
+        TARGET_CURRENT_HP_PERCENT,
+        TARGET_LOST_HP_PERCENT,
         TARGET_ATTACK,
         TARGET_DEFENSE,
-        TARGET_AGILITY
+        TARGET_AGILITY,
+        PER_EACH_ALLY_DOWN,
+        PER_EACH_ENEMY_DOWN
     }
 }

@@ -8,6 +8,7 @@ import git.str1llax.core.skills.PassiveSkill;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 public class EffectProcessor {
     private final Random random = new Random();
@@ -36,59 +37,76 @@ public class EffectProcessor {
     }
 
     private List<Entity> resolveTargets(SkillEffect.TargetGroup targetGroup, Entity caster, Entity primaryTarget, BattleContext context) {
+        List<Entity> allies = context.getHeroes().contains(caster) ? context.getHeroes() : context.getEnemies();
+        List<Entity> enemies = context.getHeroes().contains(caster) ? context.getEnemies() : context.getHeroes();
         return switch(targetGroup) {
             case SELF -> List.of(caster);
             case TARGET -> primaryTarget != null ? List.of(primaryTarget) : List.of();
             case SELECTED_ALLY -> context.getSelectedAlly() != null ? List.of(context.getSelectedAlly()) : List.of();
-            case ALL_ENEMIES -> List.copyOf(context.getEnemies());
-            case ALL_ALLIES -> List.copyOf(context.getHeroes());
-            case MOST_INJURED_ALLY -> context.getLivingHeroes().stream().min(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
-            case MOST_INJURED_ENEMY -> context.getLivingEnemies().stream().min(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
-            case LEAST_INJURED_AlLY -> context.getLivingHeroes().stream().max(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
-            case LEAST_INJURED_ENEMY -> context.getLivingEnemies().stream().max(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
-            case ALL_LIVING_ALLIES -> List.copyOf(context.getLivingHeroes());
-            case ALL_LIVING_ENEMIES -> List.copyOf(context.getLivingEnemies());
-            case ALL_DEAD_ALLIES -> List.copyOf(context.getHeroes().stream().filter(Entity::isDead).toList());
-            case ALL_DEAD_ENEMIES -> List.copyOf(context.getEnemies().stream().filter(Entity::isDead).toList());
+            case ALL_ENEMIES -> enemies;
+            case ALL_ALLIES -> allies;
+            case MOST_INJURED_ALLY -> allies.stream().filter(Predicate.not(Entity::isDead)).min(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
+            case MOST_INJURED_ENEMY -> enemies.stream().filter(Predicate.not(Entity::isDead)).min(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
+            case LEAST_INJURED_AlLY -> allies.stream().filter(Predicate.not(Entity::isDead)).max(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
+            case LEAST_INJURED_ENEMY -> enemies.stream().filter(Predicate.not(Entity::isDead)).max(Comparator.comparingDouble(Entity::currentHp)).map(List::of).orElse(List.of());
+            case ALL_LIVING_ALLIES -> allies.stream().filter(Predicate.not(Entity::isDead)).toList();
+            case ALL_LIVING_ENEMIES -> enemies.stream().filter(Predicate.not(Entity::isDead)).toList();
+            case ALL_DEAD_ALLIES -> allies.stream().filter(Entity::isDead).toList();
+            case ALL_DEAD_ENEMIES -> enemies.stream().filter(Entity::isDead).toList();
             case RANDOM_ALLY -> {
-                List<Entity> allies = context.getLivingHeroes();
-                yield allies.isEmpty() ? List.of() : List.of(allies.get(random.nextInt(allies.size())));
+                List<Entity> livingAlly = allies.stream().filter(Predicate.not(Entity::isDead)).toList();
+                yield livingAlly.isEmpty() ? List.of() : List.of(livingAlly.get(random.nextInt(livingAlly.size())));
             }
             case RANDOM_ENEMY -> {
-                List<Entity> enemies = context.getLivingEnemies();
-                yield enemies.isEmpty() ? List.of() : List.of(enemies.get(random.nextInt(enemies.size())));
+                List<Entity> livingEnemy = enemies.stream().filter(Predicate.not(Entity::isDead)).toList();
+                yield livingEnemy.isEmpty() ? List.of() : List.of(livingEnemy.get(random.nextInt(livingEnemy.size())));
             }
         };
     }
 
     private double calculateScaledValue(SkillEffect effect, Entity caster, Entity target, BattleContext context) {
         if (effect.statMultiplier() == null) return 0d;
-
+        List<Entity> allies = context.getHeroes().contains(caster) ? context.getHeroes() : context.getEnemies();
+        List<Entity> enemies = context.getHeroes().contains(caster) ? context.getEnemies() : context.getHeroes();
         return switch(effect.scaleType()) {
             case FLAT -> effect.statMultiplier();
             case DAMAGE_DEALT -> effect.statMultiplier() * context.getLastDamage();
             case HEAL_RECEIVED -> effect.statMultiplier() * context.getLastHeal();
             case CASTER_MAX_HP -> effect.statMultiplier() * caster.maxHp();
             case CASTER_CURRENT_HP -> effect.statMultiplier() * caster.currentHp();
+            case CASTER_LOST_HP -> effect.statMultiplier() * (caster.maxHp() - caster.currentHp());
+            case CASTER_CURRENT_HP_PERCENT -> caster.currentHp() * 100d / caster.maxHp() * effect.statMultiplier();
+            case CASTER_LOST_HP_PERCENT -> (caster.maxHp() - caster.currentHp()) * 100d / caster.maxHp() * effect.statMultiplier();
             case CASTER_ATTACK -> effect.statMultiplier() * caster.attackDamage();
             case CASTER_DEFENSE -> effect.statMultiplier() * caster.defense();
             case CASTER_AGILITY -> effect.statMultiplier() * caster.agility();
             case TARGET_MAX_HP -> effect.statMultiplier() * target.maxHp();
             case TARGET_CURRENT_HP -> effect.statMultiplier() * target.currentHp();
+            case TARGET_LOST_HP -> effect.statMultiplier() * (target.maxHp() - target.currentHp());
+            case TARGET_CURRENT_HP_PERCENT -> target.currentHp() * 100d / target.maxHp() * effect.statMultiplier();
+            case TARGET_LOST_HP_PERCENT -> (target.maxHp() - target.currentHp()) / target.maxHp() * 100d * effect.statMultiplier();
             case TARGET_ATTACK -> effect.statMultiplier() * target.attackDamage();
             case TARGET_DEFENSE -> effect.statMultiplier() * target.defense();
             case TARGET_AGILITY -> effect.statMultiplier() * target.agility();
+            case PER_EACH_ALLY_DOWN -> effect.statMultiplier() * (allies.stream().filter(Entity::isDead).count());
+            case PER_EACH_ENEMY_DOWN -> effect.statMultiplier() * (enemies.stream().filter(Entity::isDead).count());
         };
     }
 
     private void applyInstant(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
         switch (effect.effectType()) {
-            case DAMAGE, BONUS_DAMAGE -> {
+            case DAMAGE -> {
                 //apply ON_ATTACK passives
+                applyPassives(PassiveSkill.TriggerType.ON_ATTACK, caster, target, context);
                 double damage = random.nextDouble() < caster.critRate() ? value * caster.critDamage() : value;
-                target.receiveDamage(damage);
+                if (target.defender() != null) {
+                    System.out.printf("%s defends %s\n", target.defender().credentials().name(), target.credentials().name());
+                    target.defender().receiveDamage(damage);
+                } else {
+                    target.receiveDamage(damage);
+                }
                 context.setLastDamage(damage);
-                context.addRageChili(damage * 20d);
+                context.addRageChili(damage * 0.1d);
 
                 if (target.isSpiky()) {
                     List<StatusEffect> thorns = target.statusEffects().stream().filter(s -> s.getEffect().effectType() == SkillEffect.EffectType.THORN).toList();
@@ -101,17 +119,22 @@ public class EffectProcessor {
                 }
             }
             case HEAL -> {
-                //apply ON_HEAL passives
+                applyPassives(PassiveSkill.TriggerType.ON_HEAL, caster, target, context);
                 target.heal(value);
                 context.setLastHeal(value);
                 System.out.printf("%s healed %.2f\n", target.credentials().name(), value);
             }
             case HEALTH_BOOST -> target.modifyMaxHpBy(value);
-            case FOCUS -> target.focus(caster);
+            case FOCUS_SELF -> target.focus(caster);
+            case FOCUS_TARGET -> target.focus(context.getSelectedAlly());
+            case PUT_SELF -> target.setDefender(caster);
+            case PUT_TARGET -> target.setDefender(context.getSelectedAlly());
             case THORN -> target.setSpiky(true);
             case PROTECTION -> target.modifyDefenseBy(value);
-            case WEAKNESS, STRENGTH -> target.modifyAttackBy(value);
-            case SPEED, SLOWNESS -> target.modifyAgilityBy(value);
+            case WEAKNESS -> target.modifyAttackBy(-value);
+            case STRENGTH -> target.modifyAttackBy(value);
+            case SPEED -> target.modifyAgilityBy(value);
+            case SLOWNESS -> target.modifyAgilityBy(-value);
             case STUN -> target.setStunned(true);
             case DISPEL_BUFFS -> target.statusEffects().removeIf(s ->
                     s.getEffect().effectType() == SkillEffect.EffectType.HEAL ||
@@ -123,12 +146,14 @@ public class EffectProcessor {
                     s.getEffect().effectType() == SkillEffect.EffectType.IMMUNE ||
                     s.getEffect().effectType() == SkillEffect.EffectType.REVIVE ||
                     s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_RATE ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.PUT_SELF ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.PUT_TARGET ||
                     s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_DAMAGE
             );
             case DISPEL_DEBUFFS -> target.statusEffects().removeIf(s ->
                     s.getEffect().effectType() == SkillEffect.EffectType.DAMAGE ||
-                    s.getEffect().effectType() == SkillEffect.EffectType.BONUS_DAMAGE ||
-                    s.getEffect().effectType() == SkillEffect.EffectType.FOCUS ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_SELF ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_TARGET ||
                     s.getEffect().effectType() == SkillEffect.EffectType.WEAKNESS ||
                     s.getEffect().effectType() == SkillEffect.EffectType.SLOWNESS ||
                     s.getEffect().effectType() == SkillEffect.EffectType.STUN
@@ -147,12 +172,13 @@ public class EffectProcessor {
     }
 
     private void applyCharge(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
+        target.setCharging(true);
         target.addStatusEffect(new StatusEffect(caster, effect, value));
     }
 
     private void applyConstant(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
+        applyInstant(effect, caster, target, context, value);
         target.addStatusEffect(new StatusEffect(caster, effect, value));
-        target.recalculateStats();
     }
 
     public void processStatusTick(StatusEffect effect, Entity owner, BattleContext context) {
@@ -178,11 +204,19 @@ public class EffectProcessor {
         }
     }
 
-    public void processPassive(PassiveSkill skill, Entity owner, BattleContext context) {
+    public void applyPassives(PassiveSkill.TriggerType type, Entity caster, Entity target, BattleContext context) {
+        for (PassiveSkill passiveSkill : caster.getLoadout().getPassiveSkills()) {
+            if (passiveSkill.triggerType() == type) {
+                processPassive(passiveSkill, caster, target, context);
+            }
+        }
+    }
+
+    public void processPassive(PassiveSkill skill, Entity owner, Entity target, BattleContext context) {
         boolean triggers = shouldTriggerPassive(skill, owner, context);
         if (triggers) {
             for (SkillEffect effect : skill.effects()) {
-                processEffect(effect, owner, owner, context);
+                processEffect(effect, owner, target, context);
             }
         }
     }
@@ -193,7 +227,6 @@ public class EffectProcessor {
         return switch (condition.conditionType()) {
             case HP_BELOW_PERCENT -> owner.currentHp() / owner.maxHp() < condition.threshold();
             case HP_ABOVE_PERCENT -> owner.currentHp() / owner.maxHp() > condition.threshold();
-            case PER_EACH_ALLY_DOWN, PER_EACH_ENEMY_DOWN -> true;
             case DAMAGE_MORE_THAN -> context.getLastDamage() > condition.threshold();
             case DAMAGE_LESS_THAN -> context.getLastDamage() < condition.threshold();
             case ON_DEATH -> owner.isDead();
@@ -202,7 +235,7 @@ public class EffectProcessor {
         };
     }
 
-    public static void applyConstantStatModifier(SkillEffect effect, Entity target) {
+    public static void processConstantEffects(SkillEffect effect, Entity target) {
         switch (effect.effectType()) {
             case HEALTH_BOOST ->  target.modifyMaxHpBy(target.getInitialHp() * effect.statMultiplier());
             case PROTECTION -> target.modifyDefenseBy(target.getInitialDefense() * effect.statMultiplier());
@@ -212,6 +245,31 @@ public class EffectProcessor {
             case SLOWNESS ->  target.modifyAgilityBy(-target.getInitialAgility() * effect.statMultiplier());
             case MODIFY_CRIT_RATE -> target.modifyCritRateBy(effect.statMultiplier());
             case MODIFY_CRIT_DAMAGE -> target.modifyCritDamageBy(effect.statMultiplier());
+            case DISPEL_BUFFS -> target.statusEffects().removeIf(s ->
+                    s.getEffect().effectType() == SkillEffect.EffectType.HEAL ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.HEALTH_BOOST ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.THORN ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.PROTECTION ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.STRENGTH ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.SPEED ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.IMMUNE ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.REVIVE ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_RATE ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.PUT_SELF ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.PUT_TARGET ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_DAMAGE
+            );
+            case DISPEL_DEBUFFS -> target.statusEffects().removeIf(s ->
+                    s.getEffect().effectType() == SkillEffect.EffectType.DAMAGE ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_SELF ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_TARGET ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.WEAKNESS ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.SLOWNESS ||
+                            s.getEffect().effectType() == SkillEffect.EffectType.STUN
+            );
+            case THORN -> target.setSpiky(true);
+            case STUN -> target.setStunned(true);
+            case IMMUNE -> target.setImmune(true);
             default -> {}
         }
     }

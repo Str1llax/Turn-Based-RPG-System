@@ -19,6 +19,278 @@
   },
   {
     "credentials": {
+      "id": "fork_lance",
+      "name": "Fork Lance",
+      "description": "A piece of long coral (with fork at the end)"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 20,
+    "offStat": 8,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "chain_attack"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "cobalt_hammer",
+      "name": "Cobalt Hammer",
+      "description": "Heavy mace. Can stun enemies!"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 28,
+    "offStat": 10,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "bedtime"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "stick_sword",
+      "name": "Stick Sword",
+      "description": "A stick, but sharp as sword"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 36,
+    "offStat": 15,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "shell_lance",
+      "name": "Shell Lance",
+      "description": "Giant pointy shell on a stick."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 44,
+    "offStat": 20,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "chain_attack"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "duck_hammer",
+      "name": "Duck Hammer",
+      "description": "Thick metal pipe with a Rubber Ducky on top."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 50,
+    "offStat": 22,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "bedtime"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "paper_sword",
+      "name": "Paper Sword",
+      "description": "Today newspaper twister around hard stick."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 60,
+    "offStat": 25,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "feather_lance",
+      "name": "Feather Lance",
+      "description": "Seems weak at first glance."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 72,
+    "offStat": 30,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "chain_attack"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "bell_hammer",
+      "name": "Bell Hammer",
+      "description": "Giant bell that disorients enemies!"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 80,
+    "offStat": 35,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "bedtime"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "steel_force",
+      "name": "Steel Force",
+      "description": "Doomsday weapon!"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "protectors_aura",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "titans_wrath",
+      "name": "Titan's Wrath",
+      "description": "Holy weapon!"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "grand_slam",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "bedtime_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "dragontooth",
+      "name": "Dragontooth",
+      "description": "Cursed dragons tooth as deadly weapon!"
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "dragon_breath",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "chain_attack_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "primal_axe",
+      "name": "Primal Axe",
+      "description": "Ancient heavy relic."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "primal_power",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "kirei_masamune",
+      "name": "Kirei Masamune",
+      "description": "Legendary samurai's weapon."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "faith_braker",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "maelstrom_trident",
+      "name": "Maelstrom Trident",
+      "description": "Poseidon's trident in the flesh."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "red",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "flaring_presence",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "chain_attack_2"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "chronos",
+      "name": "Chronos",
+      "description": "Legendary clock."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "chuck",
+    "mainStat": 100,
+    "offStat": 50,
+    "setId": "time_jump",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "hocus_pokus_2"
+    ]
+  },
+
+  {
+    "credentials": {
       "id": "stick",
       "name": "Stick",
       "description": "Just a stick."

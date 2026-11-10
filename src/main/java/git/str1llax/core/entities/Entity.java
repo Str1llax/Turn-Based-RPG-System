@@ -36,6 +36,8 @@ public class Entity {
     private boolean immune;
     private boolean stunned;
     private boolean spiky;
+    private boolean isCharging;
+    private Entity defender;
 
     public Entity(Credentials credentials, BaseStats baseStats, Loadout loadout, ActiveSkill ultimateSkill) {
         this.credentials = credentials;
@@ -51,6 +53,9 @@ public class Entity {
         this.immune = false;
         this.stunned = false;
         this.spiky = false;
+        this.isCharging = false;
+
+        this.defender = null;
 
         recalculateStats();
         this.currentHp = this.maxHp;
@@ -73,6 +78,9 @@ public class Entity {
         this.immune = false;
         this.stunned = false;
         this.spiky = false;
+        this.isCharging = false;
+
+        this.defender = null;
 
         this.ultimateSkill = blueprint.ultimateSkill;
         recalculateStats();
@@ -87,16 +95,20 @@ public class Entity {
         this.critRate = getInitialCritRate();
         this.critDamage = getInitialCritDamage();
 
+        this.immune = false;
+        this.stunned = false;
+        this.spiky = false;
+
         for (PassiveSkill skill : this.loadout.getPassiveSkills()) {
             if (skill.triggerType() == PassiveSkill.TriggerType.CONSTANT) {
                 for (SkillEffect effect : skill.effects()) {
-                    EffectProcessor.applyConstantStatModifier(effect, this);
+                    EffectProcessor.processConstantEffects(effect, this);
                 }
             }
         }
         for (StatusEffect status : this.statusEffects) {
             if (status.getEffect().executionType() == SkillEffect.ExecutionType.CONSTANT) {
-                EffectProcessor.applyConstantStatModifier(status.getEffect(), this);
+                EffectProcessor.processConstantEffects(status.getEffect(), this);
             }
         }
     }
@@ -108,6 +120,9 @@ public class Entity {
         this.immune = false;
         this.stunned = false;
         this.spiky = false;
+        this.isCharging = false;
+
+        this.defender = null;
 
         recalculateStats();
         this.currentHp = this.maxHp;
@@ -163,6 +178,10 @@ public class Entity {
     }
 
     public Loadout equip(Equipment item) {
+        if (!item.targetId().equals(this.credentials.id())) {
+            System.out.printf("This item is not for %s!\n", this.credentials.name());
+            return this.loadout;
+        }
         this.loadout.equip(item);
         recalculateStats();
         return this.loadout;
@@ -307,4 +326,16 @@ public class Entity {
         return spiky;
     }
 
+    public void setCharging(boolean value) {
+        this.isCharging = value;
+    }
+
+    public void setDefender(Entity defender) {
+        if (this.equals(defender)) return;
+        this.defender = defender;
+    }
+
+    public Entity defender() {
+        return defender;
+    }
 }

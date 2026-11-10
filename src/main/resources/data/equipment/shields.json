@@ -16,5 +16,222 @@
     "passiveSkillIds": [
       "vigor"
     ]
+  },
+  {
+    "credentials": {
+      "id": "lid_shield",
+      "name": "Lid Shield",
+      "description": "Literally a lid."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 126,
+    "offStat": 30,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "shell_banner",
+      "name": "Shell Banner",
+      "description": "Loot from abandoned ship."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 210,
+    "offStat": 35,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "tire_shield",
+      "name": "Tire Shield",
+      "description": "Someones wheel got stolen."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 252,
+    "offStat": 42,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "star_banner",
+      "name": "Star Banner",
+      "description": "Forge in Winter Wonderland."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 294,
+    "offStat": 47,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "leaf_shield",
+      "name": "Leaf Shield",
+      "description": "First forge in Old Nesting Barrows."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 378,
+    "offStat": 69,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "steel_wall",
+      "name": "Steel Wall",
+      "description": "Giant metal plate. Impenetrable."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "protectors_aura",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "titangrip",
+      "name": "Titangrip",
+      "description": "Paladins best friend."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "grand_slam",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "dragonscale",
+      "name": "Dragonscale",
+      "description": "Cursed dragon scale used as impenetrable defense."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "dragon_breath",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "primal_spear",
+      "name": "Primal Spear",
+      "description": "Ancient relic that makes you stronger."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "primal_power",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "blowing_masamune",
+      "name": "Blowing Masamune",
+      "description": "Legendary Samurai's friend."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "faith_braker",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might_2"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "maelstrom_protector",
+      "name": "Maelstrom Protector",
+      "description": "Poseidon's battle shield."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "red",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "flaring_presence",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor_2"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "chronometer",
+      "name": "Chronometer",
+      "description": "Key to God of Time powers."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "chuck",
+    "mainStat": 400,
+    "offStat": 100,
+    "setId": "time_jump",
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might_2"
+    ]
   }
 ]

@@ -14,6 +14,19 @@
   },
   {
     "credentials": {
+      "id": "critical_strike_2",
+      "name": "Critical Strike",
+      "description": "+23% crit. chance, +75% crit. damage."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "cr_increase_23",
+      "cd_increase_75"
+    ]
+  },
+  {
+    "credentials": {
       "id": "chain_attack",
       "name": "Chain Attack",
       "description": "30% chance to attack an additional random enemy dealing 50% bonus damage."
@@ -21,7 +34,19 @@
     "triggerType": "ON_ATTACK",
     "condition": null,
     "effectIds": [
-      "chain_attack"
+      "chain_attack_50_30"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "chain_attack_2",
+      "name": "Chain Attack",
+      "description": "45% chance to attack an additional random enemy dealing 65% bonus damage."
+    },
+    "triggerType": "ON_ATTACK",
+    "condition": null,
+    "effectIds": [
+      "chain_attack_65_45"
     ]
   },
   {
@@ -33,7 +58,19 @@
     "triggerType": "ON_ATTACK",
     "condition": null,
     "effectIds": [
-      "stun_1"
+      "stun_1_5"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "bedtime_2",
+      "name": "Bedtime",
+      "description": "8% chance to stun target for 1 turn."
+    },
+    "triggerType": "ON_ATTACK",
+    "condition": null,
+    "effectIds": [
+      "stun_1_8"
     ]
   },
   {
@@ -58,6 +95,42 @@
     "condition": null,
     "effectIds": [
       "might_5"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "protectors_aura",
+      "name": "Protector's Aura",
+      "description": "All allies have their defense increased by 20%."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "protectors_aura"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "grand_slam",
+      "name": "Grand Slam",
+      "description": "The hammer's stun effect lasts +1 turn."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "grand_slam"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "dragon_breath",
+      "name": "Dragon Breath",
+      "description": "45% chance to deal 75% bonus damage to all targets."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "dragon_breath"
     ]
   }
 ]
