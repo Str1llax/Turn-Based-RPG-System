@@ -39,7 +39,6 @@ public class BattleState implements GameState {
     private State state;
 
     private Queue<Entity> fixedTurnOrder;
-    private Iterator<Entity> fixedIterator;
 
     private CLinkedList<Entity> dynamicTurnOrder;
     private CLinkedList<Entity>.CircularIterator dynamicIterator;
@@ -93,14 +92,13 @@ public class BattleState implements GameState {
     }
 
     private void startRound() {
-        if (turnOrderMode == TurnOrderMode.FIXED_QUEUE) {
+        if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && fixedTurnOrder.isEmpty()) {
             List<Entity> allAlive = new ArrayList<>();
             allAlive.addAll(battleContext.getLivingHeroes());
             allAlive.addAll(battleContext.getLivingEnemies());
             allAlive.sort(Comparator.comparingDouble(Entity::agility).reversed());
 
             fixedTurnOrder = new LinkedList<>(allAlive);
-            fixedIterator = fixedTurnOrder.iterator();
         }
 
         prepareNextTurn();
@@ -108,11 +106,11 @@ public class BattleState implements GameState {
 
     private void prepareNextTurn() {
         if (turnOrderMode == TurnOrderMode.FIXED_QUEUE) {
-            if (!fixedIterator.hasNext()) {
-                state = State.ROUND_START;
+            if (fixedTurnOrder.isEmpty()) {
+                state = State.CHECK_OUTCOME;
                 return;
             }
-            activeEntity = fixedIterator.next();
+            activeEntity = fixedTurnOrder.poll();
         } else {
             if (!dynamicIterator.hasNext()) {
                 state = State.CHECK_OUTCOME;
@@ -122,20 +120,26 @@ public class BattleState implements GameState {
         }
 
         if (activeEntity.isDead()) {
-            prepareNextTurn();
+            if (activeEntity.statusEffects().stream().anyMatch(s -> s.getEffect().effectType() == SkillEffect.EffectType.REVIVE)) {
+                processStatus(activeEntity);
+            }
+            state = State.ROUND_END;
             return;
         }
 
         double previousAgility = activeEntity.agility();
 
-        activeEntity.recalculateStats();
         processStatus(activeEntity);
+        activeEntity.recalculateStats();
 
         if (turnOrderMode == TurnOrderMode.DYNAMIC_CSLL && activeEntity.agility() != previousAgility) {
             dynamicTurnOrder.sortBy(Comparator.comparingDouble(Entity::agility).reversed());
         }
 
         if (activeEntity.isDead()) {
+            if (activeEntity.statusEffects().stream().anyMatch(s -> s.getEffect().effectType() == SkillEffect.EffectType.REVIVE)) {
+                processStatus(activeEntity);
+            }
             state = State.ROUND_END;
             return;
         }
@@ -155,12 +159,13 @@ public class BattleState implements GameState {
     }
 
     private void processStatus(Entity entity) {
-        var iterator = entity.statusEffects().iterator();
-        while (iterator.hasNext()) {
-            StatusEffect effect = iterator.next();
-            effectProcessor.processStatusTick(effect, entity, battleContext);
-            if (effect.isExpired()) {
-                iterator.remove();
+        if (activeEntity.isDead()) {
+            for (StatusEffect effect : entity.statusEffects().stream().filter(s -> s.getEffect().effectType() == SkillEffect.EffectType.REVIVE).toList()) {
+                effectProcessor.processStatusTick(effect, entity, battleContext);
+            }
+        } else {
+            for (StatusEffect effect : entity.statusEffects()) {
+                effectProcessor.processStatusTick(effect, entity, battleContext);
             }
         }
     }
@@ -177,7 +182,7 @@ public class BattleState implements GameState {
         System.out.printf("Your turn: %s\n", activeEntity.credentials().name());
         System.out.println("Select skill:");
         for (int i = 0; i < skills.size(); ++i) {
-            System.out.printf("%d. %s\n", i+1, skills.get(i).credentials().name());
+            System.out.printf("%d. %s - %s\n", i+1, skills.get(i).credentials().name(), skills.get(i).credentials().description());
         }
 
         int skillChoice = InputManager.getValidInput(1, skills.size()) - 1;
@@ -192,25 +197,26 @@ public class BattleState implements GameState {
         System.out.println("Select target:");
         switch (chosenSkill.skillType()) {
             case ATTACK, ATTACK_ULTIMATE -> {
-                if (chosenSkill.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE) {
-                    battleContext.useChili();
-                }
                 for (int i = 0; i < livingEnemies.size(); ++i) {
                     System.out.printf("%d. %s (HP: %.2f/%.2f)\n", i+1, livingEnemies.get(i).credentials().name(), livingEnemies.get(i).currentHp(), livingEnemies.get(i).maxHp());
                 }
                 int targetChoice = InputManager.getValidInput(1, livingEnemies.size()) - 1;
                 target = livingEnemies.get(targetChoice);
+                effectProcessor.applyPassives(PassiveSkill.TriggerType.ON_ATTACK, activeEntity, target, battleContext);
+                if (chosenSkill.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE) {
+                    battleContext.useChili();
+                }
                 effectProcessor.applyPassives(PassiveSkill.TriggerType.ON_DEFENSE, activeEntity, target, battleContext);
 
             }
             case SUPPORT, SUPPORT_ULTIMATE -> {
-                if (chosenSkill.skillType() == ActiveSkill.SkillType.SUPPORT_ULTIMATE) {
-                    battleContext.useChili();
-                }
                 for (int i = 0; i < livingAllies.size(); ++i) {
                     System.out.printf("%d. %s (HP: %.2f/%.2f)\n", i+1, livingAllies.get(i).credentials().name(), livingAllies.get(i).currentHp(), livingAllies.get(i).maxHp());
                 }
                 int targetChoice = InputManager.getValidInput(1, livingAllies.size()) - 1;
+                if (chosenSkill.skillType() == ActiveSkill.SkillType.SUPPORT_ULTIMATE) {
+                    battleContext.useChili();
+                }
                 target = livingAllies.get(targetChoice);
                 battleContext.setSelectedAlly(target);
             }
@@ -231,10 +237,15 @@ public class BattleState implements GameState {
         List<ActiveSkill> skills = activeEntity.getLoadout().getActiveSkills();
         if (activeEntity.ultimateSkill() != null) skills.add(activeEntity.ultimateSkill());
 
-        ActiveSkill chosenSkill = skills.getFirst();
-        Entity target = livingHeroes.getFirst();
+        if (skills.isEmpty()) return;
+
+        ActiveSkill chosenSkill;
+        Entity target;
 
         Optional<Entity> weakAlly = livingAllies.stream().filter(e -> (e.currentHp() / e.maxHp() < 0.3d)).findFirst();
+        Optional<Entity> weakHero = livingHeroes.stream().filter(e -> e.currentHp() / e.maxHp() < 0.2d).findFirst();
+        Entity leastHpHero = livingHeroes.stream().min(Comparator.comparingDouble(Entity::currentHp)).orElse(livingHeroes.get(new Random().nextInt(livingHeroes.size())));
+
         Optional<ActiveSkill> healSkill = skills.stream().filter(s -> s.effects().stream().anyMatch(e ->
                 (e.effectType() == SkillEffect.EffectType.HEAL ||
                 e.effectType() == SkillEffect.EffectType.HEALTH_BOOST ||
@@ -247,31 +258,31 @@ public class BattleState implements GameState {
                 e.targetGroup() == SkillEffect.TargetGroup.SELECTED_ALLY ||
                 e.targetGroup() == SkillEffect.TargetGroup.RANDOM_ALLY
                 ))).findFirst();
+        Optional<ActiveSkill> AOEAttack = skills.stream().filter(s ->
+                (s.skillType() == ActiveSkill.SkillType.ATTACK || s.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE) &&
+                        s.effects().stream().anyMatch(f -> f.targetGroup() == SkillEffect.TargetGroup.ALL_ENEMIES ||
+                                f.targetGroup()== SkillEffect.TargetGroup.ALL_LIVING_ENEMIES)).findFirst();
+        Optional<ActiveSkill> attackingSkill = skills.stream().findAny().filter(s -> s.skillType() == ActiveSkill.SkillType.ATTACK || s.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE);
+        Optional<ActiveSkill> AOESupport = skills.stream().filter(s ->
+                (s.skillType() == ActiveSkill.SkillType.SUPPORT || s.skillType() == ActiveSkill.SkillType.SUPPORT_ULTIMATE) &&
+                        s.effects().stream().anyMatch(f -> f.targetGroup() == SkillEffect.TargetGroup.ALL_ALLIES ||
+                                f.targetGroup()== SkillEffect.TargetGroup.ALL_LIVING_ALLIES)).findFirst();
+
         if (weakAlly.isPresent() && healSkill.isPresent()) {
             chosenSkill = healSkill.get();
             target = weakAlly.get();
+        } else if (AOEAttack.isPresent()) {
+            chosenSkill = AOEAttack.get();
+            target = weakHero.orElseGet(() -> leastHpHero);
+        } else if (attackingSkill.isPresent()) {
+            chosenSkill = attackingSkill.get();
+            target = weakHero.orElseGet(() -> leastHpHero);
+        } else if (AOESupport.isPresent()) {
+            chosenSkill = AOESupport.get();
+            target = activeEntity;
         } else {
-            Optional<Entity> weakHero = livingHeroes.stream().filter(e -> e.currentHp() / e.maxHp() < 0.2d).findFirst();
-            if (weakHero.isPresent()) {
-                target = weakHero.get();
-                chosenSkill = skills.stream().filter(s -> s.skillType() == ActiveSkill.SkillType.ATTACK || s.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE).findFirst().orElse(skills.getFirst());
-            } else {
-                Optional<ActiveSkill> AOEAttack = skills.stream().filter(s ->
-                        (s.skillType() == ActiveSkill.SkillType.ATTACK || s.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE) &&
-                                s.effects().stream().anyMatch(f -> f.targetGroup() == SkillEffect.TargetGroup.ALL_ENEMIES ||
-                                        f.targetGroup()== SkillEffect.TargetGroup.ALL_LIVING_ENEMIES)).findFirst();
-                if (AOEAttack.isPresent()) {
-                    chosenSkill = AOEAttack.get();
-                } else {
-                    Optional<ActiveSkill> attackingSkill = skills.stream().filter(s -> s.skillType() == ActiveSkill.SkillType.ATTACK || s.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE).findFirst();
-                    if (attackingSkill.isPresent()) {
-                        chosenSkill = attackingSkill.get();
-                        target = livingHeroes.stream().min(Comparator.comparingDouble(Entity::currentHp)).orElse(livingHeroes.get(new Random().nextInt(livingHeroes.size())));
-                    } else {
-                        target = livingAllies.get(new Random().nextInt(livingAllies.size()));
-                    }
-                }
-            }
+            chosenSkill = skills.getFirst();
+            target = livingAllies.get(new Random().nextInt(livingAllies.size()));
         }
 
         System.out.printf("%s uses %s on %s!\n", activeEntity.credentials().name(), chosenSkill.credentials().name(), target.credentials().name());
@@ -282,23 +293,18 @@ public class BattleState implements GameState {
     }
 
     private void processResults() {
-        for (Entity hero : battleContext.getHeroes()) {
-            if (hero.isDead() && battleContext.getLivingEnemies().stream().noneMatch(e -> e.getLoadout().getActiveSkills().stream().anyMatch(s -> s.effects().stream().anyMatch(f -> f.effectType() == SkillEffect.EffectType.REVIVE)))) {
-                if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && fixedTurnOrder != null) {
-                    fixedIterator.remove();
-                } else if (dynamicTurnOrder != null) {
+        if (turnOrderMode == TurnOrderMode.DYNAMIC_CSLL && dynamicTurnOrder != null) {
+            for (Entity hero : battleContext.getHeroes()) {
+                if (hero.isDead() && battleContext.getLivingHeroes().stream().noneMatch(e -> e.getLoadout().getActiveSkills().stream().anyMatch(s -> s.effects().stream().anyMatch(f -> f.effectType() == SkillEffect.EffectType.REVIVE && f.targetGroup() != SkillEffect.TargetGroup.SELF)))) {
                     dynamicTurnOrder.remove(hero);
                 }
             }
-        }
-        for (Entity enemy : battleContext.getEnemies()) {
-            if (enemy.isDead() && !enemy.statusEffects().removeIf(s -> s.getEffect().effectType() == SkillEffect.EffectType.REVIVE)) {
-                if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && fixedTurnOrder != null) {
-                    fixedTurnOrder.remove(enemy);
-                } else if (dynamicTurnOrder != null) {
+            for (Entity enemy : battleContext.getEnemies()) {
+                if (enemy.isDead() && battleContext.getLivingEnemies().stream().noneMatch(e -> e.getLoadout().getActiveSkills().stream().anyMatch(s -> s.effects().stream().anyMatch(f -> f.effectType() == SkillEffect.EffectType.REVIVE && f.targetGroup() != SkillEffect.TargetGroup.SELF)))) {
                     dynamicTurnOrder.remove(enemy);
                 }
             }
+            dynamicIterator.next();
         }
 
         state = State.CHECK_OUTCOME;
@@ -310,7 +316,7 @@ public class BattleState implements GameState {
         } else if (battleContext.getLivingHeroes().isEmpty()) {
             state = State.DEFEAT;
         } else {
-            prepareNextTurn();
+            state = State.ROUND_START;
         }
     }
 
@@ -329,6 +335,17 @@ public class BattleState implements GameState {
     }
 
     private void renderStats() {
+        System.out.println("\n--- Round Order ---");
+        if (turnOrderMode == TurnOrderMode.DYNAMIC_CSLL) {
+            for (int i = 1; i <= dynamicTurnOrder.size(); ++i) {
+                System.out.printf("%d. %s\n", i, dynamicIterator.next().credentials().name());
+            }
+        } else if (turnOrderMode == TurnOrderMode.FIXED_QUEUE) {
+            Queue<Entity> order = new LinkedList<>(fixedTurnOrder);
+            for (int i = 1; i <= order.size(); ++i) {
+                System.out.printf("%d. %s\n", i, order.poll().credentials().name());
+            }
+        }
         int i = 1;
         System.out.println("\n--- YOUR TEAM ---");
         for (Entity hero : battleContext.getHeroes()) {

@@ -1,8 +1,7 @@
 package git.str1llax.core.utils;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class CLinkedList<T> implements Iterable<T> {
 
@@ -95,6 +94,16 @@ public class CLinkedList<T> implements Iterable<T> {
         return new CircularIterator();
     }
 
+    public List<T> toList() {
+        List<T> list = new ArrayList<>();
+        Node<T> current = head;
+        while (current != tail) {
+            list.add(current.data);
+            current = current.next;
+        }
+        return list;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return circularIterator();
@@ -102,6 +111,14 @@ public class CLinkedList<T> implements Iterable<T> {
 
     public class CircularIterator implements Iterator<T> {
         private Node<T> current = head;
+
+        @Override
+        public void forEachRemaining(Consumer<? super T> action) {
+            Objects.requireNonNull(action);
+            for (int i = 0; i < size; ++i) {
+                action.accept(next());
+            }
+        }
 
         @Override
         public boolean hasNext() {

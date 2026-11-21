@@ -192,7 +192,6 @@ public class Entity {
     }
 
     public void receiveDamage(double amount) {
-        //APPLY ON_DEFENSE passives somehow
         if (isDead() || this.immune) return;
 
         double damageMultiplier = 1d - (this.defense / (this.defense + 300));

@@ -96,8 +96,6 @@ public class EffectProcessor {
     private void applyInstant(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
         switch (effect.effectType()) {
             case DAMAGE -> {
-                //apply ON_ATTACK passives
-                applyPassives(PassiveSkill.TriggerType.ON_ATTACK, caster, target, context);
                 double damage = random.nextDouble() < caster.critRate() ? value * caster.critDamage() : value;
                 if (target.defender() != null) {
                     System.out.printf("%s defends %s\n", target.defender().credentials().name(), target.credentials().name());
