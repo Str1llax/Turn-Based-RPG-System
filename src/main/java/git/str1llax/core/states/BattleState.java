@@ -92,7 +92,7 @@ public class BattleState implements GameState {
     }
 
     private void startRound() {
-        if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && fixedTurnOrder.isEmpty()) {
+        if (turnOrderMode == TurnOrderMode.FIXED_QUEUE && (fixedTurnOrder == null || fixedTurnOrder.isEmpty())) {
             List<Entity> allAlive = new ArrayList<>();
             allAlive.addAll(battleContext.getLivingHeroes());
             allAlive.addAll(battleContext.getLivingEnemies());
@@ -179,7 +179,7 @@ public class BattleState implements GameState {
         List<Entity> livingAllies = battleContext.getLivingHeroes();
         List<Entity> deadAllies = battleContext.getHeroes().stream().filter(Entity::isDead).toList();
 
-        System.out.printf("Your turn: %s\n", activeEntity.credentials().name());
+        System.out.printf("\nYour turn: %s\n", activeEntity.credentials().name());
         System.out.println("Select skill:");
         for (int i = 0; i < skills.size(); ++i) {
             System.out.printf("%d. %s - %s\n", i+1, skills.get(i).credentials().name(), skills.get(i).credentials().description());
@@ -202,12 +202,9 @@ public class BattleState implements GameState {
                 }
                 int targetChoice = InputManager.getValidInput(1, livingEnemies.size()) - 1;
                 target = livingEnemies.get(targetChoice);
-                effectProcessor.applyPassives(PassiveSkill.TriggerType.ON_ATTACK, activeEntity, target, battleContext);
                 if (chosenSkill.skillType() == ActiveSkill.SkillType.ATTACK_ULTIMATE) {
                     battleContext.useChili();
                 }
-                effectProcessor.applyPassives(PassiveSkill.TriggerType.ON_DEFENSE, activeEntity, target, battleContext);
-
             }
             case SUPPORT, SUPPORT_ULTIMATE -> {
                 for (int i = 0; i < livingAllies.size(); ++i) {
@@ -231,9 +228,10 @@ public class BattleState implements GameState {
     }
 
     private void processAI() {
-        System.out.printf("Enemy turn: %s\n", activeEntity.credentials().name());
+        System.out.printf("\nEnemies turn: %s\n", activeEntity.credentials().name());
         List<Entity> livingHeroes = !activeEntity.getFocusedOn().isEmpty() ? activeEntity.getFocusedOn() : battleContext.getLivingHeroes();
         List<Entity> livingAllies = battleContext.getLivingEnemies();
+        List<Entity> deadAllies = battleContext.getEnemies().stream().filter(Entity::isDead).toList();
         List<ActiveSkill> skills = activeEntity.getLoadout().getActiveSkills();
         if (activeEntity.ultimateSkill() != null) skills.add(activeEntity.ultimateSkill());
 
@@ -246,6 +244,7 @@ public class BattleState implements GameState {
         Optional<Entity> weakHero = livingHeroes.stream().filter(e -> e.currentHp() / e.maxHp() < 0.2d).findFirst();
         Entity leastHpHero = livingHeroes.stream().min(Comparator.comparingDouble(Entity::currentHp)).orElse(livingHeroes.get(new Random().nextInt(livingHeroes.size())));
 
+        Optional<ActiveSkill> resurectionSkill = skills.stream().filter(s -> s.effects().stream().anyMatch(e -> e.effectType() == SkillEffect.EffectType.REVIVE)).findFirst();
         Optional<ActiveSkill> healSkill = skills.stream().filter(s -> s.effects().stream().anyMatch(e ->
                 (e.effectType() == SkillEffect.EffectType.HEAL ||
                 e.effectType() == SkillEffect.EffectType.HEALTH_BOOST ||
@@ -268,7 +267,10 @@ public class BattleState implements GameState {
                         s.effects().stream().anyMatch(f -> f.targetGroup() == SkillEffect.TargetGroup.ALL_ALLIES ||
                                 f.targetGroup()== SkillEffect.TargetGroup.ALL_LIVING_ALLIES)).findFirst();
 
-        if (weakAlly.isPresent() && healSkill.isPresent()) {
+        if (!deadAllies.isEmpty() && resurectionSkill.isPresent()) {
+          chosenSkill = resurectionSkill.get();
+          target = deadAllies.stream().max(Comparator.comparingDouble(Entity::maxHp)).get();
+        } else if (weakAlly.isPresent() && healSkill.isPresent()) {
             chosenSkill = healSkill.get();
             target = weakAlly.get();
         } else if (AOEAttack.isPresent()) {
@@ -276,7 +278,11 @@ public class BattleState implements GameState {
             target = weakHero.orElseGet(() -> leastHpHero);
         } else if (attackingSkill.isPresent()) {
             chosenSkill = attackingSkill.get();
-            target = weakHero.orElseGet(() -> leastHpHero);
+            if (new Random().nextFloat(0.0f, 1.0f) < 0.3f) {
+                target = weakHero.orElseGet(() -> leastHpHero);
+            } else {
+                target = livingHeroes.get(new Random().nextInt(livingHeroes.size()));
+            }
         } else if (AOESupport.isPresent()) {
             chosenSkill = AOESupport.get();
             target = activeEntity;
@@ -304,7 +310,6 @@ public class BattleState implements GameState {
                     dynamicTurnOrder.remove(enemy);
                 }
             }
-            dynamicIterator.next();
         }
 
         state = State.CHECK_OUTCOME;
@@ -335,52 +340,76 @@ public class BattleState implements GameState {
     }
 
     private void renderStats() {
+        int i = 1;
         System.out.println("\n--- Round Order ---");
         if (turnOrderMode == TurnOrderMode.DYNAMIC_CSLL) {
-            for (int i = 1; i <= dynamicTurnOrder.size(); ++i) {
+            System.out.printf("1. %s\n", activeEntity.credentials().name());
+            for (i = 2; i < dynamicTurnOrder.size() + 1; i++) {
                 System.out.printf("%d. %s\n", i, dynamicIterator.next().credentials().name());
             }
+            dynamicIterator.next();
         } else if (turnOrderMode == TurnOrderMode.FIXED_QUEUE) {
             Queue<Entity> order = new LinkedList<>(fixedTurnOrder);
-            for (int i = 1; i <= order.size(); ++i) {
-                System.out.printf("%d. %s\n", i, order.poll().credentials().name());
+            System.out.printf("%d. %s\n", i++, activeEntity.credentials().name());
+            while (!order.isEmpty()) {
+                System.out.printf("%d. %s\n", i++, order.poll().credentials().name());
             }
         }
-        int i = 1;
+        i = 1;
         System.out.println("\n--- YOUR TEAM ---");
         for (Entity hero : battleContext.getHeroes()) {
-            System.out.printf("%d. %s\n\tHP: %.2f/%.2f\n\tDef: %.2f\n\tAD: %.2f\n\tAgility: %.2f\n\tCrit R/D: %.2f%%/%.2f%%\n",
-                    i, hero.credentials().name(),
+            System.out.printf("%d.%s%s\n\tHP: %.2f/%.2f\n\tDef: %.2f\n\tAD: %.2f\n\tAgility: %.2f\n\tCrit. R/D: %.2f%%/%.2f%%\n",
+                    i++, hero.isDead() ? " !!!DEAD!!! " : " ", hero.credentials().name(),
                     hero.currentHp(), hero.maxHp(),
                     hero.defense(),
                     hero.attackDamage(),
                     hero.agility(),
                     hero.critRate() * 100d, hero.critDamage() * 100d);
-            ++i;
+            if (!hero.getLoadout().getActiveSkills().isEmpty()) {
+                System.out.println("\tActive Skills:");
+                for (ActiveSkill activeSkill : hero.getLoadout().getActiveSkills()) {
+                    System.out.printf("\t\t- %s - %s\n", activeSkill.credentials().name(), activeSkill.credentials().description());
+                }
+            }
+            if (!hero.getLoadout().getPassiveSkills().isEmpty()) {
+                System.out.println("\tPassive Skills:");
+                for (PassiveSkill passiveSkill : hero.getLoadout().getPassiveSkills()) {
+                    System.out.printf("\t\t- %s - %s\n", passiveSkill.credentials().name(), passiveSkill.credentials().description());
+                }
+            }
             if (!hero.statusEffects().isEmpty()) {
-                int j = 1;
                 System.out.println("\tStatus Effects:");
                 for (StatusEffect status : hero.statusEffects()) {
-                    System.out.printf("\t\t%d. %s (turns left: %d)\n", j, status.getEffect().credentials().name(), status.left());
+                    System.out.printf("\t\t- %s (turns left: %d)\n\t\t%s\n", status.getEffect().credentials().name(), status.left(), status.getEffect().credentials().description());
                 }
             }
         }
         i = 1;
         System.out.println("\n--- ENEMIES ---");
         for (Entity enemy : battleContext.getEnemies()) {
-            System.out.printf("%d. %s\n\tHP: %.2f/%.2f\n\tDef: %.2f\n\tAD: %.2f\n\tAgility: %.2f\n\tCrit R/D: %.2f%%/%.2f%%\n",
-                    i, enemy.credentials().name(),
+            System.out.printf("%d.%s%s\n\tHP: %.2f/%.2f\n\tDef: %.2f\n\tAD: %.2f\n\tAgility: %.2f\n\tCrit. R/D: %.2f%%/%.2f%%\n",
+                    i++, enemy.isDead() ? " !!!DEAD!!! ": " ", enemy.credentials().name(),
                     enemy.currentHp(), enemy.maxHp(),
                     enemy.defense(),
                     enemy.attackDamage(),
                     enemy.agility(),
                     enemy.critRate() * 100d, enemy.critDamage() * 100d);
-            ++i;
+            if (!enemy.getLoadout().getActiveSkills().isEmpty()) {
+                System.out.println("\tActive Skills:");
+                for (ActiveSkill activeSkill : enemy.getLoadout().getActiveSkills()) {
+                    System.out.printf("\t\t- %s - %s\n", activeSkill.credentials().name(), activeSkill.credentials().description());
+                }
+            }
+            if (!enemy.getLoadout().getPassiveSkills().isEmpty()) {
+                System.out.println("\tPassive Skills:");
+                for (PassiveSkill passiveSkill : enemy.getLoadout().getPassiveSkills()) {
+                    System.out.printf("\t\t- %s - %s\n", passiveSkill.credentials().name(), passiveSkill.credentials().description());
+                }
+            }
             if (!enemy.statusEffects().isEmpty()) {
-                int j = 1;
                 System.out.println("\tStatus Effects:");
                 for (StatusEffect status : enemy.statusEffects()) {
-                    System.out.printf("\t\t%d. %s (turns left: %d)\n", j, status.getEffect().credentials().name(), status.left());
+                    System.out.printf("\t\t- %s (turns left: %d)\n\t\t%s\n", status.getEffect().credentials().name(), status.left(), status.getEffect().credentials().description());
                 }
             }
         }

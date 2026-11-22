@@ -97,10 +97,10 @@ public class CLinkedList<T> implements Iterable<T> {
     public List<T> toList() {
         List<T> list = new ArrayList<>();
         Node<T> current = head;
-        while (current != tail) {
+        do {
             list.add(current.data);
             current = current.next;
-        }
+        } while (current != tail);
         return list;
     }
 

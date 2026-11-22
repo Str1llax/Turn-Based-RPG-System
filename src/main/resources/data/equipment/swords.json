@@ -272,6 +272,24 @@
 
   {
     "credentials": {
+      "id": "staff",
+      "name": "Staff",
+      "description": "Simple magic staff."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "chuck",
+    "mainStat": 24,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike"
+    ]
+  },
+  {
+    "credentials": {
       "id": "chronos",
       "name": "Chronos",
       "description": "Legendary clock."
@@ -286,6 +304,63 @@
     ],
     "passiveSkillIds": [
       "hocus_pokus_2"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "harp",
+      "name": "Harp",
+      "description": "Old harp."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "matilda",
+    "mainStat": 25,
+    "offStat": 10,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "bedtime"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "punching_glove",
+      "name": "Punching Glove",
+      "description": "Tyson's glove."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "bomb",
+    "mainStat": 58,
+    "offStat": 15,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "hocus_pokus"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "bow",
+      "name": "Bow",
+      "description": "Old bow."
+    },
+    "equipmentType": "SWORD",
+    "targetId": "blues",
+    "mainStat": 58,
+    "offStat": 10,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "critical_strike"
     ]
   },
 

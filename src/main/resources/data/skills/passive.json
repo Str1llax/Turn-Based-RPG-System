@@ -127,10 +127,59 @@
       "name": "Dragon Breath",
       "description": "45% chance to deal 75% bonus damage to all targets."
     },
-    "triggerType": "CONSTANT",
+    "triggerType": "ON_ATTACK",
     "condition": null,
     "effectIds": [
       "dragon_breath"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "primal_power",
+      "name": "Primal Power",
+      "description": "60% chance to remove all negative effects from the target and deal 100% bonus damage."
+    },
+    "triggerType": "ON_ATTACK",
+    "condition": null,
+    "effectIds": [
+      "dispel_negative_60",
+      "damage_100"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "faith_braker",
+      "name": "Faith Braker",
+      "description": "50% chance to deal 200% damage against the random enemy after attacking."
+    },
+    "triggerType": "ON_ATTACK",
+    "condition": null,
+    "effectIds": [
+      "damage_200_50"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "flaring_presence",
+      "name": "Flaring Presence",
+      "description": "Defeating an enemy fills the Rage Chili by 20%."
+    },
+    "triggerType": "ON_KILL",
+    "condition": null,
+    "effectIds": [
+      "chili_20"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "hocus_pokus",
+      "name": "Hocus Pokus",
+      "description": "Heals by 10% of dealt damage."
+    },
+    "triggerType": "ON_HIT",
+    "condition": null,
+    "effectIds": [
+      "heal_10_dd"
     ]
   }
 ]

@@ -15,6 +15,7 @@ public record SkillEffect(
     public enum EffectType {
         DAMAGE,
         HEAL,
+        HEAL_ON_HIT,
         HEALTH_BOOST,
         FOCUS_SELF,
         FOCUS_TARGET,
@@ -22,6 +23,7 @@ public record SkillEffect(
         PUT_TARGET,
         THORN,
         PROTECTION,
+        VULNERABLE,
         WEAKNESS,
         STRENGTH,
         SPEED,
@@ -33,6 +35,8 @@ public record SkillEffect(
         REVIVE,
         MODIFY_CRIT_RATE,
         MODIFY_CRIT_DAMAGE,
+        RAGE_BOOST,
+        USE_ALLY_ATTACK,
     }
 
     public enum ExecutionType {
@@ -81,6 +85,6 @@ public record SkillEffect(
         TARGET_DEFENSE,
         TARGET_AGILITY,
         PER_EACH_ALLY_DOWN,
-        PER_EACH_ENEMY_DOWN
+        PER_EACH_ENEMY_DOWN,
     }
 }

@@ -218,6 +218,24 @@
 
   {
     "credentials": {
+      "id": "book",
+      "name": "Book",
+      "description": "Old manuscript."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "chuck",
+    "mainStat": 42,
+    "offStat": 10,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might"
+    ]
+  },
+  {
+    "credentials": {
       "id": "chronometer",
       "name": "Chronometer",
       "description": "Key to God of Time powers."
@@ -232,6 +250,63 @@
     ],
     "passiveSkillIds": [
       "might_2"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "handbag",
+      "name": "Handbag",
+      "description": "Small bag."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "matilda",
+    "mainStat": 130,
+    "offStat": 30,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "vigor"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "treasure_map",
+      "name": "Treasure Map",
+      "description": "Maybe it shows the path for real treasures."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "bomb",
+    "mainStat": 151,
+    "offStat": 45,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "warhorn",
+      "name": "Warhorn",
+      "description": "Guffy ahh saxophone."
+    },
+    "equipmentType": "SHIELD",
+    "targetId": "blues",
+    "mainStat": 119,
+    "offStat": 30,
+    "setId": null,
+    "activeSkillIds": [
+
+    ],
+    "passiveSkillIds": [
+      "might"
     ]
   }
 ]

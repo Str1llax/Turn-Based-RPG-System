@@ -41,7 +41,7 @@
     "credentials": {
       "id": "samurai",
       "name": "Samurai",
-      "description": "Fearless warrior"
+      "description": "Fearless warrior."
     },
     "equipmentType": "ARMOR",
     "targetId": "red",
@@ -60,7 +60,7 @@
     "credentials": {
       "id": "avenger",
       "name": "Avenger",
-      "description": "He's here to get his revenge"
+      "description": "He's here to get his revenge."
     },
     "equipmentType": "ARMOR",
     "targetId": "red",
@@ -79,7 +79,7 @@
     "credentials": {
       "id": "paladin",
       "name": "Paladin",
-      "description": "Holy knight"
+      "description": "Holy knight."
     },
     "equipmentType": "ARMOR",
     "targetId": "red",
@@ -98,7 +98,7 @@
     "credentials": {
       "id": "stone_guard",
       "name": "Stone Guard",
-      "description": "Ancient Aztec techniques"
+      "description": "Ancient Aztec techniques."
     },
     "equipmentType": "ARMOR",
     "targetId": "red",
@@ -108,6 +108,181 @@
     "activeSkillIds": [
       "feral_assault",
       "ancestral_protection"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "mage",
+      "name": "Mage",
+      "description": "Initial class."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "chuck",
+    "mainStat": 15,
+    "offStat": 13,
+    "setId": null,
+    "activeSkillIds": [
+      "storm",
+      "shock_shield"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "lightning_bird",
+      "name": "Lightning Bird",
+      "description": "Power Drainer."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "chuck",
+    "mainStat": 12,
+    "offStat": 16,
+    "setId": null,
+    "activeSkillIds": [
+      "energy_drain",
+      "lightning_fast"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "rainbird",
+      "name": "Rainbird",
+      "description": "Acidic healer."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "chuck",
+    "mainStat": 18,
+    "offStat": 15,
+    "setId": null,
+    "activeSkillIds": [
+      "acid_rain",
+      "healing_rain"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "wizard",
+      "name": "Wizard",
+      "description": "Ancient magic."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "chuck",
+    "mainStat": 20,
+    "offStat": 18,
+    "setId": null,
+    "activeSkillIds": [
+      "chain_lightning",
+      "energize"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "thunderbird",
+      "name": "Thunderbird",
+      "description": "Elemental power!"
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "chuck",
+    "mainStat": 15,
+    "offStat": 18,
+    "setId": null,
+    "activeSkillIds": [
+      "thunderclap",
+      "rage_of_thunder"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+  {
+    "credentials": {
+      "id": "illusionist",
+      "name": "Illusionist",
+      "description": "Master of illusions."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "chuck",
+    "mainStat": 13,
+    "offStat": 20,
+    "setId": null,
+    "activeSkillIds": [
+      "dancing_spark",
+      "mirror_image"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "cleric",
+      "name": "Cleric",
+      "description": "Master of the First Aid."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "matilda",
+    "mainStat": 18,
+    "offStat": 8,
+    "setId": null,
+    "activeSkillIds": [
+      "healing_strike",
+      "healing_shield"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "pirate",
+      "name": "Pirate",
+      "description": "Swam through 7 seas."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "bomb",
+    "mainStat": 20,
+    "offStat": 8,
+    "setId": null,
+    "activeSkillIds": [
+      "pummel",
+      "arrr"
+    ],
+    "passiveSkillIds": [
+
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "tricksters",
+      "name": "Tricksters",
+      "description": "Makes fun of everything."
+    },
+    "equipmentType": "ARMOR",
+    "targetId": "blues",
+    "mainStat": 20,
+    "offStat": 11,
+    "setId": null,
+    "activeSkillIds": [
+      "itching_powder",
+      "cheer"
     ],
     "passiveSkillIds": [
 

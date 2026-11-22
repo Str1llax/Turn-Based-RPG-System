@@ -19,7 +19,7 @@
     },
     "skillType": "SUPPORT",
     "effectIds": [
-      "protect_55"
+      "protect_55_dot_2"
     ]
   },
   {
@@ -152,6 +152,271 @@
     "skillType": "ATTACK_ULTIMATE",
     "effectIds": [
       "heroic_strike"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "speed_of_light",
+      "name": "Speed of Light",
+      "description": "Immediately launch 5 attacks from your allies."
+    },
+    "skillType": "ATTACK_ULTIMATE",
+    "effectIds": [
+      "random_ally_attack",
+      "random_ally_attack",
+      "random_ally_attack",
+      "random_ally_attack",
+      "random_ally_attack"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "storm",
+      "name": "Storm",
+      "description": "Deals 55% damage to all enemies."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_55_aoe"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "shock_shield",
+      "name": "Shock Shield",
+      "description": "Enemies attacking target bird receive 75% damage each hit. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "thorn_75_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "energy_drain",
+      "name": "Energy Drain",
+      "description": "Deals 45% damage to all enemies with a 65% chance to remove any target's positive effects."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_45_aoe",
+      "dispel_positive_aoe_65"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "lightning_fast",
+      "name": "Lightning Fast",
+      "description": "Target bird immediately attacks a random enemy."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "ally_attack"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "acid_rain",
+      "name": "Acid Rain",
+      "description": "Deals 20% damage to all enemies, which also take 35% damage each turn for 3 turns."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_20_aoe",
+      "damage_35_aoe_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "healing_rain",
+      "name": "Healing Rain",
+      "description": "Removes all negative effects from target bird and heals all birds for 20% of Chuck's health."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "dispel_negative_target",
+      "heal_aoe_20_max_health"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "chain_lightning",
+      "name": "Chain Lightning",
+      "description": "Deals 100% damage. Lightning strikes 3 other targets, dealing less damage with each subsequent strike (67%, 45%, and 30% damage respectively)."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_100",
+      "damage_67_random",
+      "damage_45_random",
+      "damage_30_random"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "energize",
+      "name": "Energize",
+      "description": "Each hit on target bird fills the Rage Chili by 5% and has a 20% chance to stun the attacker for 1 turn. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "chili_5",
+      "stun_1_attacker_20_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "thunderclap",
+      "name": "Thunderclap",
+      "description": "Deals 50% damage to all enemies. Target loses 25% of defense for 3 turns."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_50_aoe",
+      "vulnerable_25_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "rage_of_thunder",
+      "name": "Rage of Thunder",
+      "description": "Enemies attacking any bird receive 45% damage each hit. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "thorn_45_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "dancing_spark",
+      "name": "Dancing Spark",
+      "description": "Deals 100% damage. For 3 turns, 35% of damage dealt to the target is also applied to all other enemies."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_100",
+      "damage_35_dealt_aoe_3"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "mirror_image",
+      "name": "Mirror Image",
+      "description": "Target ally attacks a second time dealing 50% damage. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "damage_50_dealt_target_3"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "matildas_medicine",
+      "name": "Matilda's Medicine",
+      "description": "Heals all birds for 35% health and removes all their negative effects."
+    },
+    "skillType": "SUPPORT_ULTIMATE",
+    "effectIds": [
+      "dispel_debuff_aoe",
+      "heal_35_aoe"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "healing_strike",
+      "name": "Healing Strike",
+      "description": "Deals 110% damage and heals all birds for 25% of the damage dealt."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_110",
+      "heal_25_dd_aoe"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "healing_shield",
+      "name": "Healing Shield",
+      "description": "If any ally takes damage, all allies are healed for 15% of the taken damage. Lasts 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "heal_15_oh_3"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "explode",
+      "name": "Explode",
+      "description": "Deals 150% AD damage to all enemies."
+    },
+    "skillType": "ATTACK_ULTIMATE",
+    "effectIds": [
+      "damage_150_aoe"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "pummel",
+      "name": "Pummel",
+      "description": "Deals 100% damage."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_100"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "arrr",
+      "name": "Arrr!",
+      "description": "Increases all allies attack power by 25% for 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "strength_25_3"
+    ]
+  },
+
+  {
+    "credentials": {
+      "id": "egg_surprise",
+      "name": "Egg Surprise",
+      "description": "Deals 200% damage to a random enemy, stuns a random enemy for 1 turn and removes all positive effects from a random enemy."
+    },
+    "skillType": "ATTACK_ULTIMATE",
+    "effectIds": [
+      "damage_200_random",
+      "stun_1_random",
+      "dispel_buff_random"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "itching_powder",
+      "name": "Itching Powder",
+      "description": "Deals 100% damage and removes all the target's positive effects."
+    },
+    "skillType": "ATTACK",
+    "effectIds": [
+      "damage_100",
+      "dispel_buff"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "cheer",
+      "name": "Cheer",
+      "description": "Removes all negative effects from all allies and increases their attack power by 15% for 3 turns."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": [
+      "dispel_debuff_aoe",
+      "strength_15_3"
     ]
   },
 

@@ -3,8 +3,10 @@ package git.str1llax.core.utils;
 import git.str1llax.core.effects.SkillEffect;
 import git.str1llax.core.effects.StatusEffect;
 import git.str1llax.core.entities.Entity;
+import git.str1llax.core.skills.ActiveSkill;
 import git.str1llax.core.skills.PassiveSkill;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +39,7 @@ public class EffectProcessor {
     }
 
     private List<Entity> resolveTargets(SkillEffect.TargetGroup targetGroup, Entity caster, Entity primaryTarget, BattleContext context) {
+        if (targetGroup == null) return List.of();
         List<Entity> allies = context.getHeroes().contains(caster) ? context.getHeroes() : context.getEnemies();
         List<Entity> enemies = context.getHeroes().contains(caster) ? context.getEnemies() : context.getHeroes();
         return switch(targetGroup) {
@@ -96,27 +99,55 @@ public class EffectProcessor {
     private void applyInstant(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
         switch (effect.effectType()) {
             case DAMAGE -> {
-                double damage = random.nextDouble() < caster.critRate() ? value * caster.critDamage() : value;
-                if (target.defender() != null) {
-                    System.out.printf("%s defends %s\n", target.defender().credentials().name(), target.credentials().name());
-                    target.defender().receiveDamage(damage);
-                } else {
-                    target.receiveDamage(damage);
+                Entity damageTarget = target.defender() != null ? target.defender().isDead() ? target : target.defender() : target;
+
+                if (damageTarget.isDead()) return;
+
+                applyPassives(PassiveSkill.TriggerType.ON_ATTACK, caster, damageTarget, context);
+                boolean isCrit = random.nextDouble() < caster.critRate();
+                if (isCrit) {
+                    System.out.print("CRITICAL HIT! ");
                 }
+                double damage = isCrit ? value * caster.critDamage() : value;
                 context.setLastDamage(damage);
                 context.addRageChili(damage * 0.1d);
 
-                if (target.isSpiky()) {
-                    List<StatusEffect> thorns = target.statusEffects().stream().filter(s -> s.getEffect().effectType() == SkillEffect.EffectType.THORN).toList();
+                if (damageTarget == target.defender()) {
+                    System.out.printf("%s defends %s\n", target.defender().credentials().name(), target.credentials().name());
+                }
+
+                applyPassives(PassiveSkill.TriggerType.ON_DEFENSE, damageTarget, caster, context);
+                damageTarget.receiveDamage(damage);
+                applyPassives(PassiveSkill.TriggerType.ON_HIT, damageTarget, caster, context);
+
+                for (StatusEffect heal : damageTarget.statusEffects().stream().filter(s -> s.getEffect().effectType() == SkillEffect.EffectType.HEAL_ON_HIT).toList()) {
+                    List<Entity> targets = resolveTargets(heal.getEffect().targetGroup(), heal.caster(), damageTarget, context);
+                    for (Entity target2 : targets) {
+                        double healVal = calculateScaledValue(heal.getEffect(), heal.caster(), target2, context);
+                        applyInstant(heal.getEffect(), heal.caster(), target2, context, healVal);
+                    }
+                }
+
+                if (damageTarget.isSpiky()) {
+                    List<StatusEffect> thorns = damageTarget.statusEffects().stream().filter(s -> s.getEffect().effectType() == SkillEffect.EffectType.THORN).toList();
                     double reflectedDamage = 0d;
                     for (StatusEffect thorn : thorns) {
-                        reflectedDamage += thorn.getEffect().scaleType() == SkillEffect.ScaleType.DAMAGE_DEALT ? damage * thorn.value() : thorn.value();
+                        reflectedDamage += calculateScaledValue(thorn.getEffect(), thorn.caster(), caster, context);
                     }
+                    System.out.print("REFLECTED! ");
                     caster.receiveDamage(reflectedDamage);
-                    System.out.printf("%s reflected %.2f damage back to %s\n", target.credentials().name(), reflectedDamage, caster.credentials().name());
+                }
+
+                if (damageTarget.isDead()) {
+                    applyPassives(PassiveSkill.TriggerType.ON_KILL, caster, damageTarget, context);
+                    applyPassives(PassiveSkill.TriggerType.ON_DEATH, damageTarget, caster, context);
+                }
+                if (caster.isDead()) {
+                    applyPassives(PassiveSkill.TriggerType.ON_KILL, damageTarget, caster, context);
+                    applyPassives(PassiveSkill.TriggerType.ON_DEATH, caster, damageTarget, context);
                 }
             }
-            case HEAL -> {
+            case HEAL, HEAL_ON_HIT -> {
                 applyPassives(PassiveSkill.TriggerType.ON_HEAL, caster, target, context);
                 target.heal(value);
                 context.setLastHeal(value);
@@ -129,6 +160,7 @@ public class EffectProcessor {
             case PUT_TARGET -> target.setDefender(context.getSelectedAlly());
             case THORN -> target.setSpiky(true);
             case PROTECTION -> target.modifyDefenseBy(value);
+            case VULNERABLE -> target.modifyDefenseBy(-value);
             case WEAKNESS -> target.modifyAttackBy(-value);
             case STRENGTH -> target.modifyAttackBy(value);
             case SPEED -> target.modifyAgilityBy(value);
@@ -153,6 +185,7 @@ public class EffectProcessor {
                     s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_SELF ||
                     s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_TARGET ||
                     s.getEffect().effectType() == SkillEffect.EffectType.WEAKNESS ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.VULNERABLE ||
                     s.getEffect().effectType() == SkillEffect.EffectType.SLOWNESS ||
                     s.getEffect().effectType() == SkillEffect.EffectType.STUN
             );
@@ -162,10 +195,22 @@ public class EffectProcessor {
             }
             case MODIFY_CRIT_RATE -> target.modifyCritRateBy(value);
             case MODIFY_CRIT_DAMAGE -> target.modifyCritDamageBy(value);
+            case RAGE_BOOST -> context.fillChili(value);
+            case USE_ALLY_ATTACK -> {
+                List<Entity> livingAllies = context.getHeroes().contains(caster) ? context.getLivingHeroes() : context.getLivingEnemies();
+                List<Entity> livingEnemies = context.getEnemies().contains(caster) ? context.getLivingEnemies() : context.getLivingHeroes();
+                List<ActiveSkill> attackingSkills = new ArrayList<>();
+                livingAllies.forEach(e -> attackingSkills.addAll(e.getLoadout().getActiveSkills().stream().filter(s -> s.skillType() == ActiveSkill.SkillType.ATTACK).toList()));
+                Entity newTar = livingEnemies.get(random.nextInt(livingEnemies.size()));
+                for (SkillEffect e : attackingSkills.get(random.nextInt(attackingSkills.size())).effects()) {
+                    processEffect(e, caster, target != null ? target : newTar, context);
+                }
+            }
         }
     }
 
     private void applyDoT(SkillEffect effect, Entity caster, Entity target, BattleContext context, double value) {
+        if (effect.effectType() != SkillEffect.EffectType.HEAL_ON_HIT) applyInstant(effect, caster, target, context, value);
         target.addStatusEffect(new StatusEffect(caster, effect, value));
     }
 
@@ -187,6 +232,9 @@ public class EffectProcessor {
                 effect.tick();
                 List<Entity> targets = resolveTargets(skillEffect.targetGroup(), effect.caster(), owner, context);
                 for (Entity target : targets) {
+                    if (skillEffect.effectType() == SkillEffect.EffectType.HEAL_ON_HIT) {
+                        break;
+                    }
                     applyInstant(skillEffect, effect.caster(), target, context, effect.value());
                 }
             }
@@ -195,17 +243,21 @@ public class EffectProcessor {
                 if (effect.isExpired()) {
                     List<Entity> targets = resolveTargets(skillEffect.targetGroup(), effect.caster(), owner, context);
                     for (Entity target : targets) {
+                        if (skillEffect.effectType() == SkillEffect.EffectType.HEAL_ON_HIT) {
+                            break;
+                        }
                         applyInstant(skillEffect, effect.caster(), target, context, effect.value());
                     }
+                    owner.setCharging(false);
                 }
             }
         }
     }
 
-    public void applyPassives(PassiveSkill.TriggerType type, Entity caster, Entity target, BattleContext context) {
-        for (PassiveSkill passiveSkill : caster.getLoadout().getPassiveSkills()) {
+    public void applyPassives(PassiveSkill.TriggerType type, Entity owner, Entity target, BattleContext context) {
+        for (PassiveSkill passiveSkill : owner.getLoadout().getPassiveSkills()) {
             if (passiveSkill.triggerType() == type) {
-                processPassive(passiveSkill, caster, target, context);
+                processPassive(passiveSkill, owner, target, context);
             }
         }
     }
@@ -227,7 +279,6 @@ public class EffectProcessor {
             case HP_ABOVE_PERCENT -> owner.currentHp() / owner.maxHp() > condition.threshold();
             case DAMAGE_MORE_THAN -> context.getLastDamage() > condition.threshold();
             case DAMAGE_LESS_THAN -> context.getLastDamage() < condition.threshold();
-            case ON_DEATH -> owner.isDead();
             case RAGE_CHILI_BELOW -> context.getRageChili() < condition.threshold();
             case RAGE_CHILI_ABOVE -> context.getRageChili() > condition.threshold();
         };

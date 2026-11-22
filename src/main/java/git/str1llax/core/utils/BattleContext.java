@@ -49,7 +49,11 @@ public class BattleContext {
     }
 
     public void addRageChili(double amount) {
-        rageChili = Math.min(1d, rageChili + amount / 100d);
+        rageChili = Math.clamp(rageChili + amount / 100d, 0d, 1d);
+    }
+
+    public void fillChili(double percent) {
+        rageChili = Math.clamp(rageChili + percent, 0d, 1d);
     }
 
     public double getRageChili() {

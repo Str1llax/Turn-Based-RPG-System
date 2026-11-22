@@ -20,16 +20,18 @@ public record PassiveSkill(
             HP_ABOVE_PERCENT,
             DAMAGE_MORE_THAN,
             DAMAGE_LESS_THAN,
-            ON_DEATH,
             RAGE_CHILI_BELOW,
             RAGE_CHILI_ABOVE,
         }
     }
 
     public enum TriggerType {
-        ON_ATTACK,
-        ON_DEFENSE,
-        ON_HEAL,
-        CONSTANT
+        ON_ATTACK,  // Before calculating damage
+        ON_DEFENSE, // Before taking damage
+        ON_HIT,     // After taking damage
+        ON_HEAL,    // Before healing
+        ON_KILL,    // If caster killed target after attack
+        ON_DEATH,   // If target died from casters attack
+        CONSTANT    // Every turn
     }
 }

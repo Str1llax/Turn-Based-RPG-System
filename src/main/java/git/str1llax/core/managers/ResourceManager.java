@@ -159,6 +159,18 @@ public class ResourceManager {
     public static Equipment getEquipment(String id) {
         return equipmentRegistry.get(id);
     }
+    public static List<Equipment> getHeadEquip(String targetId) {
+        return List.copyOf(equipmentRegistry.values().stream().filter(e -> e.equipmentType() == Equipment.EquipmentType.ARMOR && e.targetId().equals(targetId)).toList());
+    }
+
+    public static List<Equipment> getWeaponEquip(String targetId) {
+        return List.copyOf(equipmentRegistry.values().stream().filter(e -> e.equipmentType() == Equipment.EquipmentType.SWORD && e.targetId().equals(targetId)).toList());
+    }
+
+    public static List<Equipment> getOffhandEquip(String targetId) {
+        return List.copyOf(equipmentRegistry.values().stream().filter(e -> e.equipmentType() == Equipment.EquipmentType.SHIELD && e.targetId().equals(targetId)).toList());
+    }
+
     public static Map<String, Entity> getHeroTemplates() {
         return Collections.unmodifiableMap(heroTemplates);
     }

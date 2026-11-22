@@ -142,7 +142,7 @@ public class Entity {
             def += loadout.getShield().offStat();
         }
         if (loadout.getArmor() != null) {
-            def += loadout.getShield().offStat();
+            def += loadout.getArmor().mainStat();
         }
         return Math.max(def, 0d);
     }
@@ -215,11 +215,11 @@ public class Entity {
     }
 
     public void modifyDefenseBy(double value) {
-        this.defense = Math.max(1d, this.defense + value);
+        this.defense = Math.max(0d, this.defense + value);
     }
 
     public void modifyAgilityBy(double value) {
-        this.agility = Math.max(1d, this.agility + value);
+        this.agility = Math.max(0d, this.agility + value);
     }
 
     public void modifyCritRateBy(double value) {

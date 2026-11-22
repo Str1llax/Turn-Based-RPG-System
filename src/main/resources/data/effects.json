@@ -92,7 +92,7 @@
     "effectType": "STUN",
     "executionType": "DOT",
     "targetGroup": "TARGET",
-    "scaleType": "FLAT",
+    "scaleType": null,
     "statMultiplier": null,
     "triggerChance": 0.05,
     "durationTurns": 1
@@ -106,7 +106,7 @@
     "effectType": "STUN",
     "executionType": "DOT",
     "targetGroup": "TARGET",
-    "scaleType": "FLAT",
+    "scaleType": null,
     "statMultiplier": null,
     "triggerChance": 0.25,
     "durationTurns": null
@@ -120,10 +120,24 @@
     "effectType": "STUN",
     "executionType": "DOT",
     "targetGroup": "TARGET",
-    "scaleType": "FLAT",
+    "scaleType": null,
     "statMultiplier": null,
     "triggerChance": 0.08,
     "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "stun_1_attacker_20_3",
+      "name": "Stun",
+      "description": "Makes target skip turn"
+    },
+    "effectType": "STUN",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 0.20,
+    "durationTurns": 1
   },
   {
     "credentials": {
@@ -179,6 +193,62 @@
     "scaleType": "CASTER_ATTACK",
     "statMultiplier": 0.75,
     "triggerChance": 0.45,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "dispel_negative",
+      "name": "Dispel",
+      "description": "60% chance to remove negative effects from target."
+    },
+    "effectType": "DISPEL_BUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 0.60,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_200_50",
+      "name": "Attack",
+      "description": "50% chance to deal 200% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 2.00,
+    "triggerChance": 0.50,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "chili_20",
+      "name": "Chili boost",
+      "description": "Fills Rage Chili by 20%."
+    },
+    "effectType": "RAGE_BOOST",
+    "executionType": "INSTANT",
+    "targetGroup": null,
+    "scaleType": "FLAT",
+    "statMultiplier": 0.20,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "chili_5",
+      "name": "Chili boost",
+      "description": "Fills Rage Chili by 5%."
+    },
+    "effectType": "RAGE_BOOST",
+    "executionType": "INSTANT",
+    "targetGroup": null,
+    "scaleType": "FLAT",
+    "statMultiplier": 0.05,
+    "triggerChance": 1.00,
     "durationTurns": null
   },
   {
@@ -267,6 +337,20 @@
   },
   {
     "credentials": {
+      "id": "damage_100",
+      "name": "Attack",
+      "description": "Deals 100% damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 1.00,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
       "id": "damage_135",
       "name": "Attack",
       "description": "Deals 135% damage."
@@ -277,6 +361,174 @@
     "scaleType": "CASTER_ATTACK",
     "statMultiplier": 1.35,
     "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_55_aoe",
+      "name": "Attack",
+      "description": "Deals 55% damage to every enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.55,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_50_aoe",
+      "name": "Attack",
+      "description": "Deals 50% damage to every enemy"
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.50,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_45_aoe",
+      "name": "Attack",
+      "description": "Deals 45% damage to every enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.45,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_20_aoe",
+      "name": "Attack",
+      "description": "Deals 20% damage to every enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.20,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "damage_35_aoe_3",
+      "name": "Attack",
+      "description": "Deals 35% damage to every enemy. Lasts 3 turns."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.20,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "damage_67_random",
+      "name": "Attack",
+      "description": "Deals 67% damage to random enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.67,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "damage_45_random",
+      "name": "Attack",
+      "description": "Deals 45% damage to random enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.45,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "damage_30_random",
+      "name": "Attack",
+      "description": "Deals 30% damage to random enemy."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.30,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "thorn_75_3",
+      "name": "Thorns",
+      "description": "Deals 75% damage to back to attacker. Lasts 3 turns."
+    },
+    "effectType": "THORN",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "DAMAGE_DEALT",
+    "statMultiplier": 0.75,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "dispel_positive_aoe_65",
+      "name": "Dispel",
+      "description": "Removes any target's positive effects"
+    },
+    "effectType": "DISPEL_BUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 0.65,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "dispel_negative_target",
+      "name": "Dispel",
+      "description": "Removes any target's negative effects"
+    },
+    "effectType": "DISPEL_DEBUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "ally_attack",
+      "name": "Instant Attack",
+      "description": "Removes any target's positive effects"
+    },
+    "effectType": "USE_ALLY_ATTACK",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 0.65,
     "durationTurns": null
   },
   {
@@ -303,7 +555,21 @@
     "executionType": "INSTANT",
     "targetGroup": "MOST_INJURED_ALLY",
     "scaleType": "DAMAGE_DEALT",
-    "statMultiplier": 0.3,
+    "statMultiplier": 0.30,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "heal_aoe_20_max_health",
+      "name": "Heal",
+      "description": "Restores health."
+    },
+    "effectType": "HEAL",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "CASTER_MAX_HP",
+    "statMultiplier": 0.20,
     "triggerChance": 1.00,
     "durationTurns": null
   },
@@ -371,7 +637,7 @@
     },
     "effectType": "PROTECTION",
     "executionType": "DOT",
-    "targetGroup": "SELECTED_ALLY",
+    "targetGroup": "TARGET",
     "scaleType": "TARGET_DEFENSE",
     "statMultiplier": 0.20,
     "triggerChance": 1.00,
@@ -413,7 +679,7 @@
     },
     "effectType": "PUT_SELF",
     "executionType": "DOT",
-    "targetGroup": "SELECTED_ALLY",
+    "targetGroup": "TARGET",
     "scaleType": "FLAT",
     "statMultiplier": null,
     "triggerChance": 1.00,
@@ -441,7 +707,7 @@
     },
     "effectType": "PROTECTION",
     "executionType": "DOT",
-    "targetGroup": "SELECTED_ALLY",
+    "targetGroup": "TARGET",
     "scaleType": "TARGET_DEFENSE",
     "statMultiplier": 0.55,
     "triggerChance": 1.00,
@@ -463,15 +729,15 @@
   },
   {
     "credentials": {
-      "id": "damage_100",
-      "name": "Poke",
-      "description": "Deals 100% damage."
+      "id": "random_ally_attack",
+      "name": "Instant Attack",
+      "description": "Makes random ally attack random enemy."
     },
-    "effectType": "DAMAGE",
+    "effectType": "USE_ALLY_ATTACK",
     "executionType": "INSTANT",
-    "targetGroup": "TARGET",
-    "scaleType": "CASTER_ATTACK",
-    "statMultiplier": 1.00,
+    "targetGroup": null,
+    "scaleType": null,
+    "statMultiplier": null,
     "triggerChance": 1.00,
     "durationTurns": null
   },
@@ -486,6 +752,188 @@
     "targetGroup": "SELF",
     "scaleType": "FLAT",
     "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "dispel_debuff_aoe",
+      "name": "Dispel Debuff",
+      "description": "Removes negative effects from all allies"
+    },
+    "effectType": "DISPEL_DEBUFF",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "FLAT",
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "heal_35_aoe",
+      "name": "Heal",
+      "description": "Heals all allies for 35% of their max health"
+    },
+    "effectType": "HEAL",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_MAX_HP",
+    "statMultiplier": 0.35,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "heal_25_dd_aoe",
+      "name": "Heal",
+      "description": "Heals all allies for 25% of the dealt damage"
+    },
+    "effectType": "HEAL",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "DAMAGE_DEALT",
+    "statMultiplier": 0.25,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "heal_15_oh_3",
+      "name": "Heal",
+      "description": "Heals all allies for 15% of the dealt damage on hit"
+    },
+    "effectType": "HEAL_ON_HIT",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "DAMAGE_DEALT",
+    "statMultiplier": 0.15,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "damage_150_aoe",
+      "name": "Damage",
+      "description": "Deals 150% damage to every enemy"
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 1.50,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "strength_25_3",
+      "name": "Strength",
+      "description": "Increases every ally attack by 25% for 3 turns"
+    },
+    "effectType": "STRENGTH",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.25,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "damage_200_random",
+      "name": "Strength",
+      "description": "Deals 200% damage to random enemy"
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 2.00,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "stun_1_random",
+      "name": "Stun",
+      "description": "Stuns random enemy for 1 turn"
+    },
+    "effectType": "STUN",
+    "executionType": "DOT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": 1
+  },
+  {
+    "credentials": {
+      "id": "dispel_buff_random",
+      "name": "Dispel",
+      "description": "Dispels all buffs from random enemy"
+    },
+    "effectType": "DISPEL_BUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "RANDOM_ENEMY",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "dispel_buff_target",
+      "name": "Dispel",
+      "description": "Dispels all buffs from target"
+    },
+    "effectType": "DISPEL_BUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "dispel_debuff_aoe",
+      "name": "Dispel",
+      "description": "Dispels all debuffs from allies"
+    },
+    "effectType": "DISPEL_DEBUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": null,
+    "statMultiplier": null,
+    "triggerChance": 1.00,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "strength_15_3",
+      "name": "Strength",
+      "description": "Increases all allies attack by 15% for 3 turns"
+    },
+    "effectType": "STRENGTH",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.15,
+    "triggerChance": 1.00,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "heal_10_dd",
+      "name": "Heal",
+      "description": "Heals by 10% of damage received"
+    },
+    "effectType": "HEAL",
+    "executionType": "INSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "DAMAGE_DEALT",
+    "statMultiplier": 0.10,
     "triggerChance": 1.00,
     "durationTurns": null
   }
