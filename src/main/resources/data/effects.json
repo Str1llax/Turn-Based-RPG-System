@@ -936,5 +936,328 @@
     "statMultiplier": 0.10,
     "triggerChance": 1.00,
     "durationTurns": null
+  },
+
+  {
+    "credentials": {
+      "id": "eff_dark_revival",
+      "name": "Dark Revival",
+      "description": "Revives a fallen ally with 60% Max HP."
+    },
+    "effectType": "REVIVE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.60,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_shadow_bolt_dmg",
+      "name": "Shadow Bolt",
+      "description": "Deals 90% Attack damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.90,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_voodoo_heal",
+      "name": "Voodoo Heal",
+      "description": "Heals the most injured ally for 35% of caster Max HP."
+    },
+    "effectType": "HEAL",
+    "executionType": "INSTANT",
+    "targetGroup": "MOST_INJURED_ALLY",
+    "scaleType": "CASTER_MAX_HP",
+    "statMultiplier": 0.35,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_voodoo_cleanse",
+      "name": "Voodoo Cleanse",
+      "description": "Dispels debuffs from the most injured ally."
+    },
+    "effectType": "DISPEL_DEBUFFS",
+    "executionType": "INSTANT",
+    "targetGroup": "MOST_INJURED_ALLY",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.0,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_hex_slow",
+      "name": "Hex of Sloth",
+      "description": "Reduces target Agility by 25 for 2 turns."
+    },
+    "effectType": "SLOWNESS",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": -25.0,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_cannon_aoe_dmg",
+      "name": "Cannonball Blast",
+      "description": "Deals 75% Attack damage to all living enemies."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.75,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_cannon_burn_dot",
+      "name": "Scorching Shrapnel",
+      "description": "Deals 25% Attack burn damage for 2 turns."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ENEMIES",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.25,
+    "triggerChance": 0.75,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_bunker_protection",
+      "name": "Scrap Plating",
+      "description": "Increases the most injured ally's Defense by 45 for 2 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "MOST_INJURED_ALLY",
+    "scaleType": "FLAT",
+    "statMultiplier": 45.0,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_bunker_crit",
+      "name": "Zeroed In",
+      "description": "Increases caster's Crit Rate by 15% for 2 turns."
+    },
+    "effectType": "MODIFY_CRIT_RATE",
+    "executionType": "DOT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.15,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_venom_shiv_dmg",
+      "name": "Venom Shiv",
+      "description": "Deals 115% Attack damage to a single target."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 1.15,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_venom_poison_dot",
+      "name": "Deadly Toxin",
+      "description": "Deals 30% Attack poison damage for 3 turns."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.30,
+    "triggerChance": 1.0,
+    "durationTurns": 3
+  },
+  {
+    "credentials": {
+      "id": "eff_smoke_protection",
+      "name": "Smoke Cover",
+      "description": "Grants 35 Defense to the most injured ally for 2 turns."
+    },
+    "effectType": "PROTECTION",
+    "executionType": "DOT",
+    "targetGroup": "MOST_INJURED_ALLY",
+    "scaleType": "FLAT",
+    "statMultiplier": 35.0,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_smoke_speed",
+      "name": "Shadow Step",
+      "description": "Increases caster's Agility by 25 for 2 turns."
+    },
+    "effectType": "SPEED",
+    "executionType": "DOT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 25.0,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_wrench_toss_dmg",
+      "name": "Wrench Toss",
+      "description": "Deals 95% Attack damage to a single target."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_ATTACK",
+    "statMultiplier": 0.95,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_wrench_stun",
+      "name": "Concussive Bonk",
+      "description": "25% chance to stun the target."
+    },
+    "effectType": "STUN",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.0,
+    "triggerChance": 0.25,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_rally_strength",
+      "name": "Inspiring Shout",
+      "description": "Increases all living allies' Attack by 30 for 2 turns."
+    },
+    "effectType": "STRENGTH",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "FLAT",
+    "statMultiplier": 30.0,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_rally_speed",
+      "name": "Haste March",
+      "description": "Increases all living allies' Agility by 20 for 2 turns."
+    },
+    "effectType": "SPEED",
+    "executionType": "DOT",
+    "targetGroup": "ALL_LIVING_ALLIES",
+    "scaleType": "FLAT",
+    "statMultiplier": 20.0,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_shield_bash_dmg",
+      "name": "Shield Bash",
+      "description": "Deals 85% of caster's Defense as damage."
+    },
+    "effectType": "DAMAGE",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "CASTER_DEFENSE",
+    "statMultiplier": 0.85,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_bash_weakness",
+      "name": "Dazing Impact",
+      "description": "Reduces target's Attack by 20 for 2 turns."
+    },
+    "effectType": "WEAKNESS",
+    "executionType": "DOT",
+    "targetGroup": "TARGET",
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.20,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_spiked_thorns",
+      "name": "Spiked Barricade",
+      "description": "Reflects 35% of incoming damage back to attackers for 2 turns."
+    },
+    "effectType": "THORN",
+    "executionType": "DOT",
+    "targetGroup": "SELF",
+    "scaleType": "DAMAGE_DEALT",
+    "statMultiplier": 0.35,
+    "triggerChance": 1.0,
+    "durationTurns": 2
+  },
+  {
+    "credentials": {
+      "id": "eff_iron_immunity",
+      "name": "Iron Stance",
+      "description": "Grants damage immunity."
+    },
+    "effectType": "IMMUNE",
+    "executionType": "INSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "FLAT",
+    "statMultiplier": 0.0,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_passive_shadow_agi",
+      "name": "Shadow Reflexes",
+      "description": "Permanently increases Agility by 15%."
+    },
+    "effectType": "SPEED",
+    "executionType": "CONSTANT",
+    "targetGroup": "SELF",
+    "scaleType": "TARGET_AGILITY",
+    "statMultiplier": 0.15,
+    "triggerChance": 1.0,
+    "durationTurns": null
+  },
+  {
+    "credentials": {
+      "id": "eff_passive_intimidate",
+      "name": "Intimidating Glare",
+      "description": "Reduces attacker's Attack by 20 when hit."
+    },
+    "effectType": "WEAKNESS",
+    "executionType": "INSTANT",
+    "targetGroup": "TARGET",
+    "scaleType": "TARGET_ATTACK",
+    "statMultiplier": 0.20,
+    "triggerChance": 0.40,
+    "durationTurns": null
   }
 ]

@@ -181,5 +181,30 @@
     "effectIds": [
       "heal_10_dd"
     ]
+  },
+
+  {
+    "credentials": {
+      "id": "passive_shadow_reflexes",
+      "name": "Shadow Reflexes",
+      "description": "Increases base Agility by 15%."
+    },
+    "triggerType": "CONSTANT",
+    "condition": null,
+    "effectIds": [
+      "eff_passive_shadow_agi"
+    ]
+  },
+  {
+    "credentials": {
+      "id": "passive_intimidating_glare",
+      "name": "Intimidating Glare",
+      "description": "40% chance to weaken attackers when struck."
+    },
+    "triggerType": "ON_DEFENSE",
+    "condition": null,
+    "effectIds": [
+      "eff_passive_intimidate"
+    ]
   }
 ]

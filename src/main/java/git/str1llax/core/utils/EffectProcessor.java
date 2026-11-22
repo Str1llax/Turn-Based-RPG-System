@@ -139,10 +139,12 @@ public class EffectProcessor {
                 }
 
                 if (damageTarget.isDead()) {
+                    System.out.printf("- %s died\n", damageTarget.credentials().name());
                     applyPassives(PassiveSkill.TriggerType.ON_KILL, caster, damageTarget, context);
                     applyPassives(PassiveSkill.TriggerType.ON_DEATH, damageTarget, caster, context);
                 }
                 if (caster.isDead()) {
+                    System.out.printf("- %s died\n", caster.credentials().name());
                     applyPassives(PassiveSkill.TriggerType.ON_KILL, damageTarget, caster, context);
                     applyPassives(PassiveSkill.TriggerType.ON_DEATH, caster, damageTarget, context);
                 }
@@ -295,26 +297,26 @@ public class EffectProcessor {
             case MODIFY_CRIT_RATE -> target.modifyCritRateBy(effect.statMultiplier());
             case MODIFY_CRIT_DAMAGE -> target.modifyCritDamageBy(effect.statMultiplier());
             case DISPEL_BUFFS -> target.statusEffects().removeIf(s ->
-                    s.getEffect().effectType() == SkillEffect.EffectType.HEAL ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.HEALTH_BOOST ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.THORN ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.PROTECTION ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.STRENGTH ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.SPEED ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.IMMUNE ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.REVIVE ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_RATE ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.PUT_SELF ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.PUT_TARGET ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_DAMAGE
+                s.getEffect().effectType() == SkillEffect.EffectType.HEAL ||
+                s.getEffect().effectType() == SkillEffect.EffectType.HEALTH_BOOST ||
+                s.getEffect().effectType() == SkillEffect.EffectType.THORN ||
+                s.getEffect().effectType() == SkillEffect.EffectType.PROTECTION ||
+                s.getEffect().effectType() == SkillEffect.EffectType.STRENGTH ||
+                s.getEffect().effectType() == SkillEffect.EffectType.SPEED ||
+                s.getEffect().effectType() == SkillEffect.EffectType.IMMUNE ||
+                s.getEffect().effectType() == SkillEffect.EffectType.REVIVE ||
+                s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_RATE ||
+                s.getEffect().effectType() == SkillEffect.EffectType.PUT_SELF ||
+                s.getEffect().effectType() == SkillEffect.EffectType.PUT_TARGET ||
+                s.getEffect().effectType() == SkillEffect.EffectType.MODIFY_CRIT_DAMAGE
             );
             case DISPEL_DEBUFFS -> target.statusEffects().removeIf(s ->
                     s.getEffect().effectType() == SkillEffect.EffectType.DAMAGE ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_SELF ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_TARGET ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.WEAKNESS ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.SLOWNESS ||
-                            s.getEffect().effectType() == SkillEffect.EffectType.STUN
+                    s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_SELF ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.FOCUS_TARGET ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.WEAKNESS ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.SLOWNESS ||
+                    s.getEffect().effectType() == SkillEffect.EffectType.STUN
             );
             case THORN -> target.setSpiky(true);
             case STUN -> target.setStunned(true);

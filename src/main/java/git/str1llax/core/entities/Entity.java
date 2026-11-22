@@ -194,7 +194,7 @@ public class Entity {
     public void receiveDamage(double amount) {
         if (isDead() || this.immune) return;
 
-        double damageMultiplier = 1d - (this.defense / (this.defense + 300));
+        double damageMultiplier = 1d - (this.defense / (this.defense + 400));
         double finalDamage = amount * damageMultiplier;
 
         System.out.printf("%s took %.2f damage\n", credentials.name(), finalDamage);
@@ -336,5 +336,9 @@ public class Entity {
 
     public Entity defender() {
         return defender;
+    }
+
+    public void removeExpiredStatus() {
+        this.statusEffects.removeIf(StatusEffect::isExpired);
     }
 }

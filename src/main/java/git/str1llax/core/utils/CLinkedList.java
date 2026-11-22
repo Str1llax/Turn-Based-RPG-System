@@ -1,141 +1,191 @@
 package git.str1llax.core.utils;
 
+import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-public class CLinkedList<T> implements Iterable<T> {
+public class CLinkedList<T> extends LinkedList<T> {
 
-    private static class Node<T> {
-        T data;
-        Node<T> next;
+    private final List<WeakReference<CircularIterator>> activeIterators = new ArrayList<>();
 
-        Node(T data) {
-            this.data = data;
-        }
+    public CLinkedList() {
+        super();
     }
 
-    private Node<T> head = null;
-    private Node<T> tail = null;
-    private int size = 0;
-
-    public void add(T data) {
-        Node<T> newNode = new Node<>(data);
-        if (head == null) {
-            head = newNode;
-            tail = newNode;
-            newNode.next = head;
-        } else {
-            tail.next = newNode;
-            tail = newNode;
-            tail.next = head;
-        }
-        size++;
-    }
-
-    public boolean remove(T data) {
-        if (head == null) return false;
-
-        Node<T> current = head;
-        Node<T> prev = tail;
-
-        for (int i = 0; i < size; i++) {
-            if (current.data.equals(data)) {
-                if (size == 1) {
-                    head = null;
-                    tail = null;
-                } else {
-                    prev.next = current.next;
-                    if (current == head) {
-                        head = current.next;
-                        tail.next = head;
-                    }
-                    if (current == tail) {
-                        tail = prev;
-                    }
-                }
-                size--;
-                return true;
-            }
-            prev = current;
-            current = current.next;
-        }
-        return false;
-    }
-
-    public void sortBy(Comparator<T> comparator) {
-        if (size <= 1) return;
-
-        boolean swapped;
-        do {
-            swapped = false;
-            Node<T> current = head;
-            for (int i = 0; i < size - 1; i++) {
-                Node<T> nextNode = current.next;
-                if (comparator.compare(current.data, nextNode.data) > 0) {
-                    T temp = current.data;
-                    current.data = nextNode.data;
-                    nextNode.data = temp;
-                    swapped = true;
-                }
-                current = nextNode;
-            }
-        } while (swapped);
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public int size() {
-        return size;
+    public CLinkedList(Collection<? extends T> c) {
+        super(c);
     }
 
     public CircularIterator circularIterator() {
-        return new CircularIterator();
+        CircularIterator iterator = new CircularIterator();
+        activeIterators.add(new WeakReference<>(iterator));
+        return iterator;
+    }
+
+    public void sortBy(Comparator<? super T> comparator) {
+        super.sort(comparator);
+        forEachActiveIterator(CircularIterator::onListSorted);
     }
 
     public List<T> toList() {
-        List<T> list = new ArrayList<>();
-        Node<T> current = head;
-        do {
-            list.add(current.data);
-            current = current.next;
-        } while (current != tail);
-        return list;
+        return List.copyOf(this);
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return circularIterator();
+    public T remove(int index) {
+        T removed = super.remove(index);
+        forEachActiveIterator(it -> it.onElementRemoved(index));
+        return removed;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        int index = indexOf(o);
+        if (index == -1) return false;
+        remove(index);
+        return true;
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super T> filter) {
+        Objects.requireNonNull(filter);
+        boolean removed = false;
+        for (int i = size() - 1; i >= 0; i--) {
+            if (filter.test(get(i))) {
+                remove(i);
+                removed = true;
+            }
+        }
+        return removed;
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        forEachActiveIterator(CircularIterator::reset);
+    }
+
+    private void forEachActiveIterator(Consumer<CircularIterator> action) {
+        activeIterators.removeIf(ref -> ref.get() == null);
+        for (WeakReference<CircularIterator> ref : activeIterators) {
+            CircularIterator it = ref.get();
+            if (it != null) {
+                action.accept(it);
+            }
+        }
     }
 
     public class CircularIterator implements Iterator<T> {
-        private Node<T> current = head;
-
-        @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            Objects.requireNonNull(action);
-            for (int i = 0; i < size; ++i) {
-                action.accept(next());
-            }
-        }
+        private int cursor = 0;
+        private int lastReturnedIndex = -1;
+        private T lastReturned = null;
 
         @Override
         public boolean hasNext() {
-            return head != null && size > 0;
+            return !isEmpty();
         }
 
         @Override
         public T next() {
-            if (!hasNext()) throw new NoSuchElementException();
-            T data = current.data;
-            current = current.next;
-            return data;
+            if (!hasNext()) throw new NoSuchElementException("Circular list is empty");
+            if (cursor >= size()) cursor = 0;
+
+            lastReturnedIndex = cursor;
+            lastReturned = get(cursor);
+            cursor = (cursor + 1) % size();
+            return lastReturned;
         }
 
+        /**
+         * Returns the upcoming element at the cursor without advancing the turn.
+         */
+        public T peek() {
+            if (isEmpty()) return null;
+            if (cursor >= size()) cursor = 0;
+            return get(cursor);
+        }
+
+        /**
+         * Returns the element most recently returned by next() (the currently active entity).
+         */
         public T current() {
-            return current != null ? current.data : null;
+            return lastReturned;
+        }
+
+        /**
+         * Safely removes the element most recently returned by next() without skipping the next turn.
+         */
+        @Override
+        public void remove() {
+            if (lastReturnedIndex < 0 || lastReturnedIndex >= size()) {
+                throw new IllegalStateException("next() must be called before remove()");
+            }
+            CLinkedList.this.remove(lastReturnedIndex);
+        }
+
+        /**
+         * Removes the upcoming element at the cursor position.
+         */
+        public T removeUpcoming() {
+            if (isEmpty()) throw new NoSuchElementException("Circular list is empty");
+            if (cursor >= size()) cursor = 0;
+            return CLinkedList.this.remove(cursor);
+        }
+
+        /**
+         * Traverses one full cycle starting from the current cursor position.
+         */
+        @Override
+        public void forEachRemaining(Consumer<? super T> action) {
+            Objects.requireNonNull(action);
+            int count = size();
+            for (int i = 0; i < count && !isEmpty(); i++) {
+                action.accept(next());
+            }
+        }
+
+        public void reset() {
+            cursor = 0;
+            lastReturnedIndex = -1;
+            lastReturned = null;
+        }
+
+        private void onElementRemoved(int removedIndex) {
+            if (isEmpty()) {
+                reset();
+                return;
+            }
+            if (removedIndex < cursor) {
+                cursor--;
+            }
+            if (cursor >= size()) {
+                cursor = 0;
+            }
+            if (removedIndex == lastReturnedIndex) {
+                lastReturned = null;
+                lastReturnedIndex = -1;
+            } else if (removedIndex < lastReturnedIndex) {
+                lastReturnedIndex--;
+            }
+        }
+
+        private void onListSorted() {
+            if (isEmpty()) {
+                reset();
+                return;
+            }
+            if (lastReturned != null) {
+                int newIndex = indexOf(lastReturned);
+                if (newIndex != -1) {
+                    lastReturnedIndex = newIndex;
+                    cursor = (newIndex + 1) % size();
+                    return;
+                }
+            }
+            if (cursor >= size()) {
+                cursor = 0;
+            }
         }
     }
-
 }

@@ -372,8 +372,8 @@
     },
     "equipmentType": "SWORD",
     "targetId": "stick_pig",
-    "mainStat": 10,
-    "offStat": 1,
+    "mainStat": 10.00,
+    "offStat": 10.00,
     "setId": null,
     "activeSkillIds": [
       "poke"
@@ -381,5 +381,55 @@
     "passiveSkillIds": [
 
     ]
+  },
+  {
+    "credentials": { "id": "eq_necro_staff", "name": "Skull Staff", "description": "Channels necrotic magic." },
+    "equipmentType": "SWORD",
+    "targetId": "enemy_necromancer_pig",
+    "mainStat": 35.0,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillIds": ["skill_shadow_bolt", "skill_dark_revival"],
+    "passiveSkillIds": []
+  },
+  {
+    "credentials": { "id": "eq_shaman_totem", "name": "Voodoo Totem", "description": "Carved wooden totem." },
+    "equipmentType": "SWORD",
+    "targetId": "enemy_shaman_pig",
+    "mainStat": 25.0,
+    "offStat": 05,
+    "setId": null,
+    "activeSkillIds": ["skill_hex_of_sloth", "skill_voodoo_mend"],
+    "passiveSkillIds": []
+  },
+  {
+    "credentials": { "id": "eq_heavy_cannon", "name": "Piggy Mortar", "description": "Fires heavy explosive rounds." },
+    "equipmentType": "SWORD",
+    "targetId": "enemy_cannoneer_pig",
+    "mainStat": 55.0,
+    "offStat": 10,
+    "setId": null,
+    "activeSkillIds": ["skill_cannon_barrage", "skill_reinforce_bunker"],
+    "passiveSkillIds": []
+  },
+  {
+    "credentials": { "id": "eq_venom_dagger", "name": "Venom Dagger", "description": "Coated in green slime toxin." },
+    "equipmentType": "SWORD",
+    "targetId": "enemy_ninja_pig",
+    "mainStat": 45.0,
+    "offStat": 20,
+    "setId": null,
+    "activeSkillIds": ["skill_venom_shiv", "skill_smoke_veil"],
+    "passiveSkillIds": ["passive_shadow_reflexes"]
+  },
+  {
+    "credentials": { "id": "eq_foreman_whistle", "name": "Brass Whistle", "description": "Commands the pig workforce." },
+    "equipmentType": "SWORD",
+    "targetId": "enemy_foreman_pig",
+    "mainStat": 20.0,
+    "offStat": 5,
+    "setId": null,
+    "activeSkillIds": ["skill_wrench_toss", "skill_rallying_whistle"],
+    "passiveSkillIds": []
   }
 ]

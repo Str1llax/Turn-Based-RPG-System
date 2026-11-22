@@ -6,10 +6,10 @@
       "description": "Just a minion pig."
     },
     "baseStats": {
-      "maxHp": 50,
-      "attackDamage": 5,
-      "defense": 10,
-      "agility": 10
+      "maxHp": 150.0,
+      "attackDamage": 25.0,
+      "defense": 20.0,
+      "agility": 50.0
     },
     "defaultLoadout": {
       "armorId": null,
@@ -17,5 +17,119 @@
       "shieldId": null
     },
     "ultimateSkillId": "stumble"
+  },
+  {
+    "credentials": {
+      "id": "enemy_necromancer_pig",
+      "name": "Necromancer Pig",
+      "description": "Raises fallen pigs back into battle."
+    },
+    "baseStats": {
+      "maxHp": 420.0,
+      "attackDamage": 65.0,
+      "defense": 30.0,
+      "agility": 85.0
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": "eq_necro_staff",
+      "shieldId": null
+    },
+    "ultimateSkillId": null
+  },
+  {
+    "credentials": {
+      "id": "enemy_shaman_pig",
+      "name": "Shaman Pig",
+      "description": "Heals injured allies and slows down birds."
+    },
+    "baseStats": {
+      "maxHp": 460.0,
+      "attackDamage": 55.0,
+      "defense": 35.0,
+      "agility": 95.0
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": "eq_shaman_totem",
+      "shieldId": null
+    },
+    "ultimateSkillId": null
+  },
+  {
+    "credentials": {
+      "id": "enemy_cannoneer_pig",
+      "name": "Cannoneer Pig",
+      "description": "Bombards the entire bird team with explosive shells."
+    },
+    "baseStats": {
+      "maxHp": 520.0,
+      "attackDamage": 85.0,
+      "defense": 45.0,
+      "agility": 60.0
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": "eq_heavy_cannon",
+      "shieldId": null
+    },
+    "ultimateSkillId": null
+  },
+  {
+    "credentials": {
+      "id": "enemy_ninja_pig",
+      "name": "Ninja Pig",
+      "description": "Swift assassin that picks off weakened birds."
+    },
+    "baseStats": {
+      "maxHp": 380.0,
+      "attackDamage": 90.0,
+      "defense": 25.0,
+      "agility": 135.0
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": "eq_venom_dagger",
+      "shieldId": null
+    },
+    "ultimateSkillId": null
+  },
+  {
+    "credentials": {
+      "id": "enemy_foreman_pig",
+      "name": "Foreman Pig",
+      "description": "Rallies all living pigs with Attack and Speed buffs."
+    },
+    "baseStats": {
+      "maxHp": 550.0,
+      "attackDamage": 60.0,
+      "defense": 55.0,
+      "agility": 110.0
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": "eq_foreman_whistle",
+      "shieldId": null
+    },
+    "ultimateSkillId": null
+  },
+  {
+    "credentials": {
+      "id": "enemy_ironclad_pig",
+      "name": "Ironclad Guard Pig",
+      "description": "Fortifies himself with thorns and immunity."
+    },
+    "baseStats": {
+      "maxHp": 750.0,
+      "attackDamage": 50.0,
+      "defense": 95.0,
+      "agility": 50.0
+    },
+    "defaultLoadout": {
+      "armorId": null,
+      "swordId": null,
+      "shieldId": "eq_iron_barricade"
+    },
+    "ultimateSkillId": null
   }
 ]

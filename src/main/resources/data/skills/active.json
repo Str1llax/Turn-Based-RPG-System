@@ -404,7 +404,7 @@
     "skillType": "ATTACK",
     "effectIds": [
       "damage_100",
-      "dispel_buff"
+      "dispel_buff_target"
     ]
   },
   {
@@ -441,5 +441,114 @@
     "effectIds": [
       "stun_self_1"
     ]
+  },
+
+  {
+    "credentials": {
+      "id": "skill_dark_revival",
+      "name": "Dark Revival",
+      "description": "Resurrects the strongest fallen ally."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": ["eff_dark_revival"]
+  },
+  {
+    "credentials": {
+      "id": "skill_shadow_bolt",
+      "name": "Shadow Bolt",
+      "description": "Fires a bolt of dark energy at a single target."
+    },
+    "skillType": "ATTACK",
+    "effectIds": ["eff_shadow_bolt_dmg"]
+  },
+  {
+    "credentials": {
+      "id": "skill_voodoo_mend",
+      "name": "Voodoo Mend",
+      "description": "Heals and cleanses the most injured ally."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": ["eff_voodoo_heal", "eff_voodoo_cleanse"]
+  },
+  {
+    "credentials": {
+      "id": "skill_hex_of_sloth",
+      "name": "Hex of Sloth",
+      "description": "Damages and slows a target."
+    },
+    "skillType": "ATTACK",
+    "effectIds": ["eff_shadow_bolt_dmg", "eff_hex_slow"]
+  },
+  {
+    "credentials": {
+      "id": "skill_cannon_barrage",
+      "name": "Cannon Barrage",
+      "description": "Bombards all living enemies with explosive shells."
+    },
+    "skillType": "ATTACK",
+    "effectIds": ["eff_cannon_aoe_dmg", "eff_cannon_burn_dot"]
+  },
+  {
+    "credentials": {
+      "id": "skill_reinforce_bunker",
+      "name": "Reinforce Bunker",
+      "description": "Bolsters an injured ally's defense and sharpens aim."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": ["eff_bunker_protection", "eff_bunker_crit"]
+  },
+  {
+    "credentials": {
+      "id": "skill_venom_shiv",
+      "name": "Venom Shiv",
+      "description": "Stabs a target with a poisoned blade."
+    },
+    "skillType": "ATTACK",
+    "effectIds": ["eff_venom_shiv_dmg", "eff_venom_poison_dot"]
+  },
+  {
+    "credentials": {
+      "id": "skill_smoke_veil",
+      "name": "Smoke Veil",
+      "description": "Throws a smoke bomb to shield an injured ally and boost speed."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": ["eff_smoke_protection", "eff_smoke_speed"]
+  },
+  {
+    "credentials": {
+      "id": "skill_wrench_toss",
+      "name": "Wrench Toss",
+      "description": "Hurls a heavy wrench with a chance to stun."
+    },
+    "skillType": "ATTACK",
+    "effectIds": ["eff_wrench_toss_dmg", "eff_wrench_stun"]
+  },
+  {
+    "credentials": {
+      "id": "skill_rallying_whistle",
+      "name": "Rallying Whistle",
+      "description": "Boosts Attack and Agility for all living allies."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": ["eff_rally_strength", "eff_rally_speed"]
+  },
+  {
+    "credentials": {
+      "id": "skill_shield_bash",
+      "name": "Shield Bash",
+      "description": "Slams an enemy using Defense scaling and lowers their Attack."
+    },
+    "skillType": "ATTACK",
+    "effectIds": ["eff_shield_bash_dmg", "eff_bash_weakness"]
+  },
+  {
+    "credentials": {
+      "id": "skill_spiked_barricade",
+      "name": "Spiked Barricade",
+      "description": "Raises a spiked shield to reflect damage and negate incoming hits."
+    },
+    "skillType": "SUPPORT",
+    "effectIds": ["eff_spiked_thorns", "eff_iron_immunity"]
   }
 ]

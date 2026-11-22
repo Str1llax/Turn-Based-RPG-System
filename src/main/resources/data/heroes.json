@@ -6,10 +6,10 @@
       "description": "Protects the party. A real hero!"
     },
     "baseStats": {
-      "maxHp": 36,
-      "attackDamage": 8,
-      "defense": 10,
-      "agility": 10
+      "maxHp": 580,
+      "attackDamage": 65,
+      "defense": 75,
+      "agility": 85
     },
     "defaultLoadout": {
       "armorId": "knight",
@@ -25,10 +25,10 @@
       "description": "A powerful wizard. Deals damage to all enemies at once!"
     },
     "baseStats": {
-      "maxHp": 18,
-      "attackDamage": 12,
-      "defense": 6,
-      "agility": 15
+      "maxHp": 320,
+      "attackDamage": 95,
+      "defense": 25,
+      "agility": 140
     },
     "defaultLoadout": {
       "armorId": "mage",
@@ -44,10 +44,10 @@
       "description": "A strong healer who also packs quite a punch!"
     },
     "baseStats": {
-      "maxHp": 40,
-      "attackDamage": 6,
-      "defense": 8,
-      "agility": 10
+      "maxHp": 620,
+      "attackDamage": 50,
+      "defense": 60,
+      "agility": 90
     },
     "defaultLoadout": {
       "armorId": "cleric",
@@ -63,10 +63,10 @@
       "description": "Likes to beat up enemies with powerful attacks - one pig at a time."
     },
     "baseStats": {
-      "maxHp": 36,
-      "attackDamage": 10,
-      "defense": 10,
-      "agility": 8
+      "maxHp": 560,
+      "attackDamage": 85,
+      "defense": 70,
+      "agility": 65
     },
     "defaultLoadout": {
       "armorId": "pirate",
@@ -82,10 +82,10 @@
       "description": "Jacks of all trades. But they really excel in dealing tons of damage!"
     },
     "baseStats": {
-      "maxHp": 30,
-      "attackDamage": 8,
-      "defense": 8,
-      "agility": 11
+      "maxHp": 440,
+      "attackDamage": 75,
+      "defense": 45,
+      "agility": 115
     },
     "defaultLoadout": {
       "armorId": "tricksters",

@@ -308,5 +308,16 @@
     "passiveSkillIds": [
       "might"
     ]
+  },
+
+  {
+    "credentials": { "id": "eq_iron_barricade", "name": "Iron Barricade", "description": "Heavy spiked scrap shield." },
+    "equipmentType": "SHIELD",
+    "targetId": "enemy_ironclad_pig",
+    "mainStat": 200.0,
+    "offStat": 60.0,
+    "setId": null,
+    "activeSkillIds": ["skill_shield_bash", "skill_spiked_barricade"],
+    "passiveSkillIds": ["passive_intimidating_glare"]
   }
 ]

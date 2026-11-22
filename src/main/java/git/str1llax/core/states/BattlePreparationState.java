@@ -272,7 +272,7 @@ public class BattlePreparationState implements GameState {
     private List<Entity> generateEnemies() {
         List<Entity> enemies = new ArrayList<>();
         Random random = new Random();
-        int enemyCount = random.nextInt(1, 5);
+        int enemyCount = random.nextInt(2, 6);
         for (int i = 0; i < enemyCount; ++i) {
             enemies.add(new Entity(ResourceManager.getEnemyTemplates().values().stream().toList().get(random.nextInt(ResourceManager.getEnemyTemplates().size()))));
         }
