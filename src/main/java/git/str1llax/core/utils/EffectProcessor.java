@@ -200,12 +200,17 @@ public class EffectProcessor {
             case RAGE_BOOST -> context.fillChili(value);
             case USE_ALLY_ATTACK -> {
                 List<Entity> livingAllies = context.getHeroes().contains(caster) ? context.getLivingHeroes() : context.getLivingEnemies();
-                List<Entity> livingEnemies = context.getEnemies().contains(caster) ? context.getLivingEnemies() : context.getLivingHeroes();
+                List<Entity> livingEnemies = context.getHeroes().contains(caster) ? context.getLivingEnemies() : context.getLivingHeroes();
+                if (livingAllies.isEmpty() || livingEnemies.isEmpty()) {
+                    return;
+                }
                 List<ActiveSkill> attackingSkills = new ArrayList<>();
                 livingAllies.forEach(e -> attackingSkills.addAll(e.getLoadout().getActiveSkills().stream().filter(s -> s.skillType() == ActiveSkill.SkillType.ATTACK).toList()));
                 Entity newTar = livingEnemies.get(random.nextInt(livingEnemies.size()));
-                for (SkillEffect e : attackingSkills.get(random.nextInt(attackingSkills.size())).effects()) {
-                    processEffect(e, caster, target != null ? target : newTar, context);
+                ActiveSkill attackingSkill = attackingSkills.get(random.nextInt(attackingSkills.size()));
+                System.out.printf("- Using %s on %s\n", attackingSkill.credentials().name(), newTar.credentials().name());
+                for (SkillEffect e : attackingSkill.effects()) {
+                    processEffect(e, caster, newTar, context);
                 }
             }
         }

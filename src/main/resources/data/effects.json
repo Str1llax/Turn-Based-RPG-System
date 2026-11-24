@@ -735,7 +735,7 @@
     },
     "effectType": "USE_ALLY_ATTACK",
     "executionType": "INSTANT",
-    "targetGroup": null,
+    "targetGroup": "SELF",
     "scaleType": null,
     "statMultiplier": null,
     "triggerChance": 1.00,

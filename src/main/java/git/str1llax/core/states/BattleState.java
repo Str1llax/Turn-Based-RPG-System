@@ -174,9 +174,11 @@ public class BattleState implements GameState {
         } else if (turnOrderMode == TurnOrderMode.FIXED_QUEUE) {
             int i = 1;
             Queue<Entity> order = new LinkedList<>(fixedTurnOrder);
-            System.out.printf("%d. %s\n", i++, activeEntity.credentials().name());
+            System.out.printf("%d. %s (AGI: %.0f)%s\n", i++, activeEntity.credentials().name(), activeEntity.agility(), activeEntity.isDead() ? " [DEAD]" : "");
             while (!order.isEmpty()) {
-                System.out.printf("%d. %s\n", i++, order.poll().credentials().name());
+                Entity e = order.poll();
+                String deadTag = e.isDead() ? " [DEAD]" : "";
+                System.out.printf("%d. %s (AGI: %.0f)%s\n", i++, e.credentials().name(), e.agility(), deadTag);
             }
         }
     }
