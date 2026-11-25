@@ -37,17 +37,17 @@ public class CharacterCreationState implements GameState {
         String id = "custom_" + name.toLowerCase().replace(" ", "_");
 
         System.out.println("Enter Base Stats.");
-        System.out.print("Max HP (e.g 20-40): ");
-        double hp = InputManager.getValidInput(0d, 100d);
+        System.out.print("Max HP (e.g 500-600): ");
+        double hp = InputManager.getValidInput(1d, 1000d);
 
-        System.out.print("Attack Damage (e.g 10-20): ");
-        double ad = InputManager.getValidInput(0d, 100d);
+        System.out.print("Attack Damage (e.g 60-100): ");
+        double ad = InputManager.getValidInput(1d, 1000d);
 
-        System.out.print("Defense (e.g 15-30): ");
-        double df = InputManager.getValidInput(0d, 100d);
+        System.out.print("Defense (e.g 70-100): ");
+        double df = InputManager.getValidInput(0d, 1000d);
 
-        System.out.print("Agility (e.g 5-15): ");
-        double ag = InputManager.getValidInput(0d, 100d);
+        System.out.print("Agility (e.g 85-100): ");
+        double ag = InputManager.getValidInput(1d, 1000d);
 
         Credentials credentials = new Credentials(id, name, "Custom created hero");
         BaseStats baseStats = new BaseStats(hp, ad, df, ag);
